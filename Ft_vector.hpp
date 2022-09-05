@@ -20,22 +20,67 @@ class Ft_vector
             this->_tab = firstallocate(1);
         };
         virtual ~Ft_vector<T>(void){
-            deallocate(this->_tab, this->_maxsize);
+            deallocate(this->_tab);
             return;
         };
+
+        //Allocation
         T   *firstallocate(size_t maxsize){
-            std::cout << "Allocating => " <<maxsize<< std::endl;
+            std::cout << "First Allocating => " <<maxsize<< std::endl;
             return new T[maxsize];
         }
-        void deallocate(T *tab, size_t size){
-            std::cout << "Deallocating => " <<size<< std::endl;
+        T   *allocate(size_t  size){
+            std::cout << "Allocating => " <<this->_maxsize<< std::endl;
+            return new T[size];
+        }
+
+        //Deallocation
+        void deallocate(T *tab){
+            std::cout << "Deallocating => " <<this->_maxsize<< std::endl;
             delete[] tab;
         }
+
+        //Fonction for vector
         void push_back(T n){
+            if (this->_size >= this->_maxsize)
+            {
+                this->_maxsize = this->_maxsize * 2;
+                T *nw = allocate(this->_maxsize);           //Reallocation de mémoire quand elle depasse la maxsize *2
+                copy(this->_tab, nw);
+                deallocate(this->_tab);
+                this->_tab = nw;
+            }
             this->_tab[this->_size] = n;
             std::cout << this->_tab[this->_size] << std::endl;
             this->_size++;
         }
+
+        T   *copy(T *src, T *cpy){
+            int i=0;
+            while (src[i])
+            {
+                cpy[i] = src[i];
+                i++;
+            }
+            return (cpy);
+        }
+
+        //get
+
+        // T   gettabvalue(void) const
+        // {
+        //     return(*this->_tab);
+        // }
 };
+
+// template <typename T>
+// std::ostream &  operator<<(std::ostream & o, Ft_vector<T> const & i);
+
+// template <typename T>
+// std::ostream &  operator<<(std::ostream & o, Ft_vector<T> const & i)
+// {
+//     o << i.gettabvalue();
+//     return(o);
+// }
 
 #endif
