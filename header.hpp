@@ -4,7 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
+#include <algorithm>
+#include <cstddef>
+#include <tgmath.h>
 
-#include "Ft_vector.hpp"
+#include "vector.hpp"
 
 #endif

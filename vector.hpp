@@ -1,25 +1,38 @@
-#ifndef FT_VECTOR_HPP
-# define FT_VECTOR_HPP
+#ifndef VECTOR_HPP
+# define VECTOR_HPP
 
 # include "header.hpp"
+# include <memory>
+# include <algorithm>
+# include <cstddef>
+# include <tgmath.h>
 
-template <typename T>
-class Ft_vector
+namespace ft
+{
+
+template <class T, class Alloc= std::allocator<T> >
+class vector
 {
     private:
+
+        //Typedef
+
+        //All Constructor
+
+        //All Destructor
         size_t _size;
-        size_t _maxsize;
+        size_t _capacity;
         int _pointer;
-        T *_tab;
+        // T *_tab;
     public:
-        Ft_vector<T>(void){
+        vector<T>(void){
             std::cout <<"Constructeur 1 variable" << std::endl;
             this->_size = 0;
             this->_maxsize = 1;
             this->_pointer = 0;
             this->_tab = firstallocate(1);
         };
-        virtual ~Ft_vector<T>(void){
+        virtual ~vector<T>(void){
             deallocate(this->_tab);
             return;
         };
@@ -64,23 +77,8 @@ class Ft_vector
             }
             return (cpy);
         }
-
-        //get
-
-        // T   gettabvalue(void) const
-        // {
-        //     return(*this->_tab);
-        // }
 };
 
-// template <typename T>
-// std::ostream &  operator<<(std::ostream & o, Ft_vector<T> const & i);
 
-// template <typename T>
-// std::ostream &  operator<<(std::ostream & o, Ft_vector<T> const & i)
-// {
-//     o << i.gettabvalue();
-//     return(o);
-// }
-
+}
 #endif
