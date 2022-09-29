@@ -1,6 +1,6 @@
-SOURCES_FILES    =	Main.cpp\
+SOURCES_FILES    =	$(shell find . -type f -name "*.cpp")
 
-HEADER            =    header.hpp
+HEADER            =    $(shell find . -type f -name "*.hpp")
 
 SOURCES            =    $(addprefix ./, $(SOURCES_FILES))
 

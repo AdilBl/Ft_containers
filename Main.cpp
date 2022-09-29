@@ -1,16 +1,19 @@
-#include "header.hpp"
+#include <iostream>
+#include <vector>
+#include "vector.hpp"
 
-struct Vertex
+int main ()
 {
-    float *x;
-};
+  ft::vector<int> myvector (10);   // 10 zero-initialized ints
 
-int main(){
-    Ft_vector<int> a;
-    std::vector<int> b;
-    a.push_back(10);a.push_back(20);a.push_back(30);a.push_back(40);a.push_back(50);
-    // std::cout<<"Test A: " << a << std::endl;
-    b.push_back(10);
-    b.push_back(20);
-//     std::cout<<"Test B: " << b << std::endl;
+  // assign some values:
+  for (unsigned i=0; i<myvector.size(); i++)
+    myvector.at(i)=i;
+
+  std::cout << "myvector contains:";
+  for (unsigned i=0; i<myvector.size(); i++)
+    std::cout << ' ' << myvector.at(i);
+  std::cout << '\n';
+
+  return 0;
 }
