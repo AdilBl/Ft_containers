@@ -2,18 +2,32 @@
 #include <vector>
 #include "vector.hpp"
 
+
 int main ()
 {
-  ft::vector<int> myvector (10);   // 10 zero-initialized ints
+  ft::vector<int>::size_type sz;
 
-  // assign some values:
-  for (unsigned i=0; i<myvector.size(); i++)
-    myvector.at(i)=i;
+  ft::vector<int> foo;
+  sz = foo.capacity();
+  std::cout << "making foo grow:\n";
+  for (int i=0; i<100; ++i) {
+    foo.push_back(i);
+    if (sz!=foo.capacity()) {
+      sz = foo.capacity();
+      std::cout << "capacity changed: " << sz << '\n';
+    }
+  }
 
-  std::cout << "myvector contains:";
-  for (unsigned i=0; i<myvector.size(); i++)
-    std::cout << ' ' << myvector.at(i);
-  std::cout << '\n';
-
+  ft::vector<int> bar;
+  sz = bar.capacity();
+  bar.reserve(100);   // this is the only difference with foo above
+  std::cout << "making bar grow:\n";
+  for (int i=0; i<100; ++i) {
+    bar.push_back(i);
+    if (sz!=bar.capacity()) {
+      sz = bar.capacity();
+      std::cout << "capacity changed: " << sz << '\n';
+    }
+  }
   return 0;
 }
