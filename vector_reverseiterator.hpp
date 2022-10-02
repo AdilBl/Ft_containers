@@ -94,6 +94,19 @@ namespace ft
     template <typename T, typename U>
     bool    operator!=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index != rhs.index);}
 
+
+    template <typename T>
+    ft::vector_reverseiterator<T> operator+(typename ft::vector_reverseiterator<T >::difference_type rhs, const ft::vector_reverseiterator<T > &lhs)                        { return (lhs.base() + rhs); }
+
+    template <typename T>
+    ft::vector_reverseiterator<T> operator+(const ft::vector_reverseiterator<T > &rhs, typename ft::vector_reverseiterator<T>::difference_type lhs)                        { return (rhs.base() + lhs); }
+    template <typename T>
+    ft::vector_reverseiterator<T> operator-(const ft::vector_reverseiterator<T > &rhs, typename ft::vector_reverseiterator<T>::difference_type lhs)                        { return (rhs.base() - lhs); }
+
+    template <typename T>
+    typename ft::vector_reverseiterator<T >::difference_type operator-(const ft::vector_reverseiterator<T > &rhs, const ft::vector_reverseiterator<T > &lhs)                { return (rhs.base() - lhs.base()); }
+    template <typename U, typename V  >
+    typename ft::vector_reverseiterator<U >::difference_type operator-(const ft::vector_reverseiterator<V > &rhs, const ft::vector_reverseiterator<U > &lhs)    { return (rhs.base() - lhs.base()); }
 }
 
 #endif

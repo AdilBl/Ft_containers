@@ -91,6 +91,19 @@ namespace ft
     template <typename T, typename U>
     bool    operator!=(const vector_iterator<T> &lhs, const vector_iterator<U> &rhs)     {return (lhs.index != rhs.index);}
 
+    template <typename T  >
+    ft::vector_iterator<T > operator+(typename ft::vector_iterator<T >::difference_type rhs, const ft::vector_iterator<T > &lhs)                        { return (lhs.base() + rhs); }
+
+    template <typename T  >
+    ft::vector_iterator<T > operator+(const ft::vector_iterator<T > &rhs, typename ft::vector_iterator<T >::difference_type lhs)                        { return (rhs.base() + lhs); }
+
+    template <typename T  >
+    ft::vector_iterator<T > operator-(const ft::vector_iterator<T > &rhs, typename ft::vector_iterator<T >::difference_type lhs)                        { return (rhs.base() - lhs); }
+
+    template <typename T  >
+    typename ft::vector_iterator<T >::difference_type operator-(const ft::vector_iterator<T > &rhs, const ft::vector_iterator<T > &lhs)                { return (rhs.base() - lhs.base()); }
+    template <typename U, typename V  >
+    typename ft::vector_iterator<U >::difference_type operator-(const ft::vector_iterator<V > &rhs, const ft::vector_iterator<U > &lhs)    { return (rhs.base() - lhs.base()); }
 }
 
 #endif
