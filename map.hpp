@@ -11,7 +11,7 @@
 namespace ft
 {
 
-template<class Key, class T, class Compare = std::less<Key>,class Alloc = std::allocator<std::pair<const Key, T> >> 
+template<class Key, class T, class Compare = std::less<Key>,class Alloc = std::allocator<std::pair<const Key, T> > >
 
 class map
 {
@@ -152,7 +152,7 @@ class map
 		// }
 		//Allocator
 		allocator_type get_allocator() const			{return(this->_allocator);}
-
+		
 	private:
 		allocator_type	_allocator;
 
