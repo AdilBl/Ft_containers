@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "pair.hpp"
 
 namespace ft
 {
@@ -33,4 +34,7 @@ namespace ft
         }
         return (first2!=last2);
     }
+
+    template <class key,class value>
+    ft::pair<key,value> 	make_pair (key x, value y)		{return (ft::pair<key,value>(x,y));}
 }
