@@ -304,4 +304,12 @@ int main (void)
 		nnode.content.first = i;
 	}
 	ft::debug_tree(mapped.getmother(), 20);
+	for(int i = 0; i < 10; i++)
+	{
+		mapped.deleteNode(mapped.getmother(), i);
+		std::cout << "\n------------------------------\n";
+		ft::debug_tree(mapped.getmother(), 20);
+	}
+	mapped.deleteNode(mapped.getmother(), 15);
+
 }

@@ -128,13 +128,102 @@ namespace  ft
         }
         return instancenode;
     }
-        node    *getmother(void) const          {return (this->mother);}
-        private:
-            node            *mother;
-            allocator_type  allocator;
-            key_compare     comparator;
-            size_type       size;   
-    };
+
+    node * minValueNode(node* src)
+    {
+        node* current = src;
+    
+        /* loop down to find the leftmost leaf */
+        while (current->left != nullptr)
+            current = current->left;
+    
+        return current;
+    }
+
+node* deleteNode(node* root, key_type key)
+{
+     
+    if (root == nullptr)
+        return root;
+    if (root->getkey() != key)
+    {
+        if (this->comparator(root->getkey() , key) == 0)
+            root->left = deleteNode(root->left, key);
+        else
+            root->right = deleteNode(root->right, key);
+    }
+    else
+    {
+        // std::cout << "| " << key << "\n";
+        if( (root->left == nullptr) ||
+            (root->right == nullptr) )
+        {
+            node *temp;
+            if (root->left)
+                temp = root->left;
+            else
+                temp = root->right;
+            if (temp == nullptr)
+            {
+                temp = root;
+                root = nullptr;
+            }
+            else
+                *root = *temp;
+            this->allocator.destroy(temp);
+            this->allocator.deallocate(temp, 1);
+            temp = nullptr;
+        }
+        else
+        {
+            node* temp = minValueNode(root->right);
+ 
+            // Copy the inorder successor's
+            // data to this node
+            root->content = temp->content;
+ 
+            // Delete the inorder successor
+            root->right = deleteNode(root->right, key);
+        }
+    }
+        if (root == nullptr)
+            return root;
+        root->uptdatebalance();
+        int balance = root->getdeep();
+        if (balance > 1 && root->left != nullptr &&root->left->getdeep() >= 0)
+            return rightRotate(root); 
+        if (balance > 1 && root->left != nullptr && root->left->getdeep() < 0)
+        {
+            root->left = leftRotate(root->left);
+            return rightRotate(root);
+        }
+        if (root->right != nullptr)
+        {
+            if (balance < -1 && root->right != nullptr && root->right->getdeep() <= 0)
+                return leftRotate(root);
+            if (balance < -1 && root->right != nullptr && root->right->getdeep() > 0)
+            {
+                if (root->right != nullptr)
+                {
+                    return leftRotate(root);
+                }
+                root->right = rightRotate(root->right);
+                return leftRotate(root);
+            }
+            // std::cout << "Je sors\n";
+        }
+        // std::cout << "J'essaie\n";
+        return root;
+    }
+    node    *getmother(void) const          {return (this->mother);}
+    private:
+        node            *mother;
+        allocator_type  allocator;
+        key_compare     comparator;
+        size_type       size;   
+};
 }
+
+
 
 #endif

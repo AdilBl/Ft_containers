@@ -19,7 +19,7 @@ namespace ft
 			node							*right;
 			node							*parent;
 			pair							content;
-			int							deep;
+			int								deep;
 
 
 			key getkey()		{return(content.first);}
