@@ -5,13 +5,13 @@
 # include <algorithm>
 # include <cstddef>
 # include <tgmath.h>
+# include <iostream>
 # include "pair.hpp"
-# include "utils.cpp"
 # include "node.hpp"
 
 namespace  ft
 {
-    template<class Key, class T, class Compare = std::less<Key>,class Alloc = std::allocator<ft::node<class Key, class T> > >
+    template<class Key, class T, class Compare = std::less<Key>,class Alloc = std::allocator<ft::node<Key,T> > >
     class three
     {
         public:
@@ -26,7 +26,7 @@ namespace  ft
 		typedef const value_type*					const_pointer;
 		typedef	ptrdiff_t							difference_type;
 		typedef size_t								size_type;
-        typedef node<class key, class value>        node;
+        typedef node<key_type, mapped_type>         node;
 
         three()
         {
@@ -35,29 +35,46 @@ namespace  ft
             this->comparator = key_compare();
             this->size = 0;
         }
-        ~three();
+        ~three()        {}
+
+        void r_insert(node &newnode)
+        {
+            insert(this->mother, newnode, nullptr);
+        }
+
+        node* newNode(node &p ,node *parent)
+        {
+            node* newnode = this->allocator.allocate(1);
+            node temp(parent, nullptr, nullptr, ft::make_pair(p.content.first, p.content.second));
+
+            this->allocator.construct(newnode, temp);
+            this->size++;
+            if (this->mother == nullptr)
+            {
+                this->mother = newnode;
+                return (newnode);
+            }
+            if (this->comparator(parent->getkey() , p.getkey()) == 0)
+                parent->left = newnode;
+            else
+                parent->right = newnode;
+            return(newnode);
+        }
 
         node *rightRotate(node *y)
         {
             node *x = y->left;
             node *T2 = x->right;
-        
-            // Perform rotation
             x->right = y;
             y->left = T2;
-
             x->parent = y->parent;
             y->parent = x;
             if (y->right)
                 y->right->parent = y;
             if (y == this->mother)
                 this->mother = x;
-        
-            // Update heights
             y->uptdatebalance();
             x->uptdatebalance();
-        
-            // Return new root
             return x;
         }
 
@@ -85,13 +102,38 @@ namespace  ft
             return y;
         }
 
+    node* insert(node* instancenode, node  insertnode , node   *parent)
+    {
+        if (instancenode == NULL)
+            return(newNode(insertnode, parent));
+        if (this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
+            instancenode->left = insert(instancenode->left, insertnode, instancenode);
+        else
+            instancenode->right = insert(instancenode->right, insertnode, instancenode);
+        instancenode->uptdatebalance();
+        int balance = instancenode->getdeep();
+        if (balance > 1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
+            return rightRotate(instancenode);
+        if (balance < -1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 1)
+            return leftRotate(instancenode);
+        if (balance > 1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 1)
+        {
+            instancenode->left = leftRotate(instancenode->left);
+            return rightRotate(instancenode);
+        }
+        if (balance < -1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
+        {
+            instancenode->right = rightRotate(instancenode->right);
+            return leftRotate(instancenode);
+        }
+        return instancenode;
+    }
         node    *getmother(void) const          {return (this->mother);}
         private:
             node            *mother;
             allocator_type  allocator;
             key_compare     comparator;
-            size_type       size;
-        
+            size_type       size;   
     };
 }
 

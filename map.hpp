@@ -5,8 +5,9 @@
 # include <algorithm>
 # include <cstddef>
 # include <tgmath.h>
-# include "utils.cpp"
+# include "utils.hpp"
 # include "pair.hpp"
+# include "three.hpp"
 
 namespace ft
 {

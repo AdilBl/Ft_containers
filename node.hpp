@@ -6,7 +6,7 @@
 # include <cstddef>
 # include <tgmath.h>
 # include "pair.hpp"
-# include "utils.cpp"
+// # include "utils.hpp"
 
 namespace ft
 {
@@ -19,8 +19,11 @@ namespace ft
 			node							*right;
 			node							*parent;
 			pair							content;
-			size_t							deep;
+			int							deep;
 
+
+			key getkey()		{return(content.first);}
+			value	getvalue()	{return(content.second);}
 			node(node   *prent, node    *lft,node   *rght, pair	val)
 			{
 				parent = prent;
@@ -33,18 +36,22 @@ namespace ft
 			virtual	~node()					{}
 			node& operator= (const node& x)
 			{
-				parent = x.parent;
-				left = x.left;
-				right = x.right;
-				content = x.content;
-				deep = x.deep;
+				if (this != &x)
+				{
+					parent = x.parent;
+					left = x.left;
+					right = x.right;
+					content = x.content;
+					deep = x.deep;
+				}
+				return(*this);
 			}
-			bool operator< (const node<key,value>& lhs, const node<key,value>& rhs)   {return(ft::lexicographical_compare(lhs.content.first.begin(), lhs.content.first.end(), rhs.content.first.begin(), rhs.content.first.end()));}
-			bool operator<=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(!ft::lexicographical_compare(rhs.content.first.begin(), rhs.content.first.end(), lhs.content.first.begin(), lhs.content.first.end()));}
-			bool operator> (const node<key,value>& lhs, const node<key,value>& rhs)   {return(ft::lexicographical_compare(rhs.content.first.begin(), rhs.content.first.end(), lhs.content.first.begin(), lhs.content.first.end()));}
-			bool operator>=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(!ft::lexicographical_compare(lhs.content.first.begin(), lhs.content.first.end(), rhs.content.first.begin(), rhs.content.first.end()));}
+			// bool operator< (const node<key,value>& lhs, const node<key,value>& rhs)   {return(ft::lexicographical_compare(lhs.content.first.begin(), lhs.content.first.end(), rhs.content.first.begin(), rhs.content.first.end()));}
+			// bool operator<=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(!ft::lexicographical_compare(rhs.content.first.begin(), rhs.content.first.end(), lhs.content.first.begin(), lhs.content.first.end()));}
+			// bool operator> (const node<key,value>& lhs, const node<key,value>& rhs)   {return(ft::lexicographical_compare(rhs.content.first.begin(), rhs.content.first.end(), lhs.content.first.begin(), lhs.content.first.end()));}
+			// bool operator>=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(!ft::lexicographical_compare(lhs.content.first.begin(), lhs.content.first.end(), rhs.content.first.begin(), rhs.content.first.end()));}
 
-			size_t height(node *n)
+			int height(node *n)
 			{
 				if (n == nullptr)
 					return 0;
@@ -53,7 +60,7 @@ namespace ft
 
 			void	uptdatebalance(void)
 			{
-				deep = std::max(height(left->deep) , height(right->deep)) + 1;
+				deep = std::max(height(left) , height(right)) + 1;
 			}
 
 			size_t getdeep(void)
