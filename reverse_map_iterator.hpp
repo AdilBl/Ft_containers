@@ -52,13 +52,6 @@ class reverse_map_iterator
         bool    operator==(const reverse_map_iterator& x)    {return (this->index == x.index);}
         bool    operator!=(const reverse_map_iterator& x)    {return (this->index != x.index);}
         //
-        difference_type     operator+(const reverse_map_iterator& x)  {return (this->index->content.second + x.index.content.second);}
-        difference_type     operator-(const reverse_map_iterator& x)  {return (this->index->content.second - x.index.content.second);}
-        
-        void    operator+=(const reverse_map_iterator& x)  {return (this->index += x.index);}
-        void    operator-=(const reverse_map_iterator& x)  {return (this->index -= x.index);}
-
-        //
         reverse_map_iterator     operator--(void)
         {
             if (this->index->right == nullptr)

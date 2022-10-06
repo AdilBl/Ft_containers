@@ -35,6 +35,12 @@ namespace  ft
             this->allocator = allocator_type();
             this->comparator = key_compare();
             this->size = 0;
+            this->start = this->allocator.allocate(1);
+            this->end = this->allocator.allocate(1);
+            node temp(nullptr, nullptr, nullptr, nullptr);
+            node temp2(nullptr, nullptr, nullptr, nullptr);
+            this->allocator.construct(this->start, temp);
+            this->allocator.construct(this->end, temp2);
         }
         ~three()        {}
 
@@ -103,122 +109,168 @@ namespace  ft
             return y;
         }
 
-    node* insert(node* instancenode, node  insertnode , node   *parent)
-    {
-        if (instancenode == NULL)
-            return(newNode(insertnode, parent));
-        if (this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
-            instancenode->left = insert(instancenode->left, insertnode, instancenode);
-        else
-            instancenode->right = insert(instancenode->right, insertnode, instancenode);
-        instancenode->uptdatebalance();
-        int balance = instancenode->getdeep();
-        if (balance > 1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
-            return rightRotate(instancenode);
-        if (balance < -1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 1)
-            return leftRotate(instancenode);
-        if (balance > 1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 1)
+        node* insert(node* instancenode, node  insertnode , node   *parent)
         {
-            instancenode->left = leftRotate(instancenode->left);
-            return rightRotate(instancenode);
-        }
-        if (balance < -1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
-        {
-            instancenode->right = rightRotate(instancenode->right);
-            return leftRotate(instancenode);
-        }
-        return instancenode;
-    }
-
-    node * minValueNode(node* src)
-    {
-        node* current = src;
-    
-        /* loop down to find the leftmost leaf */
-        while (current->left != nullptr)
-            current = current->left;
-    
-        return current;
-    }
-
-node* deleteNode(node* root, key_type key)
-{
-     
-    if (root == nullptr)
-        return root;
-    if (root->getkey() != key)
-    {
-        if (this->comparator(root->getkey() , key) == 0)
-            root->left = deleteNode(root->left, key);
-        else
-            root->right = deleteNode(root->right, key);
-    }
-    else
-    {
-        // std::cout << "| " << key << "\n";
-        if( (root->left == nullptr) ||
-            (root->right == nullptr) )
-        {
-            node *temp;
-            if (root->left)
-                temp = root->left;
+            hidefakenode(this->mother);
+            if (instancenode == NULL)
+                return(newNode(insertnode, parent));
+            if (this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
+                instancenode->left = insert(instancenode->left, insertnode, instancenode);
             else
-                temp = root->right;
-            if (temp == nullptr)
+                instancenode->right = insert(instancenode->right, insertnode, instancenode);
+            instancenode->uptdatebalance();
+            int balance = instancenode->getdeep();
+            if (balance > 1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
+                return rightRotate(instancenode);
+            if (balance < -1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 1)
+                return leftRotate(instancenode);
+            if (balance > 1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 1)
             {
-                temp = root;
-                root = nullptr;
+                instancenode->left = leftRotate(instancenode->left);
+                return rightRotate(instancenode);
+            }
+            if (balance < -1 && this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
+            {
+                instancenode->right = rightRotate(instancenode->right);
+                return leftRotate(instancenode);
+            }
+            addfakenode(this->mother);
+            this->nwnode = insertnode;
+            return instancenode;
+        }
+
+        node * minValueNode(node* src)
+        {
+            node* current = src;
+        
+            /* loop down to find the leftmost leaf */
+            while (current->left != nullptr)
+                current = current->left;
+        
+            return current;
+        }
+
+        node* deleteNode(node* root, key_type key)
+        {
+            hidefakenode(this->mother);
+            if (root == nullptr)
+                return root;
+            if (root->getkey() != key)
+            {
+                if (this->comparator(root->getkey() , key) == 0)
+                    root->left = deleteNode(root->left, key);
+                else
+                    root->right = deleteNode(root->right, key);
             }
             else
-                *root = *temp;
-            this->allocator.destroy(temp);
-            this->allocator.deallocate(temp, 1);
-            temp = nullptr;
-        }
-        else
-        {
-            node* temp = minValueNode(root->right);
- 
-            // Copy the inorder successor's
-            // data to this node
-            root->content = temp->content;
- 
-            // Delete the inorder successor
-            root->right = deleteNode(root->right, key);
-        }
-    }
-        if (root == nullptr)
-            return root;
-        root->uptdatebalance();
-        int balance = root->getdeep();
-        if (balance > 1 && root->left != nullptr &&root->left->getdeep() >= 0)
-            return rightRotate(root); 
-        if (balance > 1 && root->left != nullptr && root->left->getdeep() < 0)
-        {
-            root->left = leftRotate(root->left);
-            return rightRotate(root);
-        }
-        if (root->right != nullptr)
-        {
-            if (balance < -1 && root->right != nullptr && root->right->getdeep() <= 0)
-                return leftRotate(root);
-            if (balance < -1 && root->right != nullptr && root->right->getdeep() > 0)
             {
-                if (root->right != nullptr)
+                // std::cout << "| " << key << "\n";
+                if( (root->left == nullptr) ||
+                    (root->right == nullptr) )
                 {
+                    node *temp;
+                    if (root->left)
+                        temp = root->left;
+                    else
+                        temp = root->right;
+                    if (temp == nullptr)
+                    {
+                        temp = root;
+                        root = nullptr;
+                    }
+                    else
+                        *root = *temp;
+                    this->allocator.destroy(temp);
+                    this->allocator.deallocate(temp, 1);
+                    temp = nullptr;
+                }
+                else
+                {
+                    node* temp = minValueNode(root->right);
+                    root->content = temp->content;
+                    root->right = deleteNode(root->right, key);
+                }
+            }
+            if (root == nullptr)
+                return root;
+            root->uptdatebalance();
+            int balance = root->getdeep();
+            if (balance > 1 && root->left != nullptr &&root->left->getdeep() >= 0)
+                return rightRotate(root); 
+            if (balance > 1 && root->left != nullptr && root->left->getdeep() < 0)
+            {
+                root->left = leftRotate(root->left);
+                return rightRotate(root);
+            }
+            if (root->right != nullptr)
+            {
+                if (balance < -1 && root->right != nullptr && root->right->getdeep() <= 0)
+                    return leftRotate(root);
+                if (balance < -1 && root->right != nullptr && root->right->getdeep() > 0)
+                {
+                    if (root->right != nullptr)
+                    {
+                        return leftRotate(root);
+                    }
+                    root->right = rightRotate(root->right);
                     return leftRotate(root);
                 }
-                root->right = rightRotate(root->right);
-                return leftRotate(root);
             }
-            // std::cout << "Je sors\n";
-        }
-        // std::cout << "J'essaie\n";
-        return root;
+            addfakenode(this->mother);
+            return root;
     }
-    node    *getmother(void) const          {return (this->mother);}
+
+    mapped_type find(const key_type&src)
+    {
+        node    *actualnode(this->mother);
+        while (actualnode->getkey() != src && actualnode != nullptr)
+        {
+            if (this->comparator(actualnode->getkey() , src) == 0)
+            {
+                actualnode == actualnode->left;
+            }
+            else
+                actualnode == actualnode->right;
+        }
+        return(actualnode->getvalue());
+    }
+
+    void    addfakenode(node *actualnode)
+    {
+        while (actualnode->left != nullptr)
+        {
+            actualnode = actualnode->left;
+        }
+        actualnode->left = this->start;
+        this->start->parent = actualnode;
+        actualnode = this->mother;
+        while (actualnode->right != nullptr)
+        {
+            actualnode = actualnode->parent;
+        }
+        actualnode->right = this->end;
+        this->end->parent = actualnode;
+    }
+
+    void    hidefakenode(node *actualnode)
+    {
+        this->start->parent->left   = nullptr;
+        this->end->parent->right    = nullptr;
+        this->start->parent         = nullptr;
+        this->end->parent           = nullptr;
+    }
+
+    node    *getstart(void) const           {return(this->start->parent);}
+    node    *getend(void)const              {return(this->end);}
+    node    *getrbegin(void)const           {return(this->end->parent);}
+    node    *getrend(void)const             {return(this->start);}
+    node    *getmother(void) const          {return(this->mother);}
+    node    *getnewnode(void) const         {return(this->nwnode);}
     private:
         node            *mother;
+        node            *start;
+        node            *end;
+        node            *nwnode;
         allocator_type  allocator;
         key_compare     comparator;
         size_type       size;   

@@ -52,13 +52,7 @@ class map_iterator
         bool    operator==(const map_iterator& x)    {return (this->index == x.index);}
         bool    operator!=(const map_iterator& x)    {return (this->index != x.index);}
         //
-        difference_type     operator+(const map_iterator& x)  {return (this->index->content.second + x.index.content.second);}
-        difference_type     operator-(const map_iterator& x)  {return (this->index->content.second - x.index.content.second);}
-        
-        void    operator+=(const map_iterator& x)  {return (this->index += x.index);}
-        void    operator-=(const map_iterator& x)  {return (this->index -= x.index);}
 
-        //
         map_iterator     operator++(void)
         {
             if (this->index->right == nullptr)
@@ -143,10 +137,10 @@ class map_iterator
             }
 
         //
-        reference           operator*()         {return (*this->index->content.second);}
-        const_reference     operator*() const   {return (*this->index->content.second);}
-        pointer             operator->()        {return (this->index->content.second);}
-        pointer             operator->()const   {return (this->index->content.second);}
+        reference           operator*()         {return (*this->index->content);}
+        const_reference     operator*() const   {return (*this->index->content);}
+        pointer             operator->()        {return (this->index->content);}
+        pointer             operator->()const   {return (this->index->content);}
 
         private:
             node *     index;

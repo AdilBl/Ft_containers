@@ -21,7 +21,7 @@ namespace ft
             typedef ptrdiff_t           difference_type;
             const_vector_iterator(void)           {this->index = nullptr;}
             const_vector_iterator(pointer i)      {this->index = i;}
-            const_vector_iterator (const vector_iterator<value_type>& x)        {this->index = x.base();}
+            const_vector_iterator (const const_vector_iterator<value_type>& x)        {this->index = x.base();}
             const_vector_iterator (const const_vector_iterator& x)        {*this = x;}
             virtual ~const_vector_iterator()            {}
             

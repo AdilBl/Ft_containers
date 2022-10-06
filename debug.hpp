@@ -3,6 +3,7 @@
 
 #include "node.hpp"
 #include <iomanip>
+#include <iostream>
 
 namespace ft
 {
