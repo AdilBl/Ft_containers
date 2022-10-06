@@ -29,16 +29,16 @@ namespace  ft
 		typedef size_t								size_type;
         typedef node<key_type, mapped_type>         node;
 
-        three()
+        three(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
         {
             this->mother = nullptr;
-            this->allocator = allocator_type();
-            this->comparator = key_compare();
+            this->allocator = alloc;
+            this->comparator = comp;
             this->size = 0;
             this->start = this->allocator.allocate(1);
             this->end = this->allocator.allocate(1);
-            node temp(nullptr, nullptr, nullptr, nullptr);
-            node temp2(nullptr, nullptr, nullptr, nullptr);
+            node temp;
+            node temp2;
             this->allocator.construct(this->start, temp);
             this->allocator.construct(this->end, temp2);
         }
@@ -46,7 +46,19 @@ namespace  ft
 
         void r_insert(node &newnode)
         {
+            if (this->mother != nullptr)
+                hidefakenode();
             insert(this->mother, newnode, nullptr);
+            addfakenode(this->mother);
+        }
+
+        void r_delete(key_type key)
+        {
+            if (this->mother != nullptr)
+                hidefakenode();
+            deleteNode(this->mother, key);
+            if (this->mother != nullptr)
+                addfakenode(this->mother);
         }
 
         node* newNode(node &p ,node *parent)
@@ -111,8 +123,7 @@ namespace  ft
 
         node* insert(node* instancenode, node  insertnode , node   *parent)
         {
-            hidefakenode(this->mother);
-            if (instancenode == NULL)
+            if (instancenode == nullptr)
                 return(newNode(insertnode, parent));
             if (this->comparator(instancenode->getkey() , insertnode.getkey()) == 0)
                 instancenode->left = insert(instancenode->left, insertnode, instancenode);
@@ -134,8 +145,7 @@ namespace  ft
                 instancenode->right = rightRotate(instancenode->right);
                 return leftRotate(instancenode);
             }
-            addfakenode(this->mother);
-            this->nwnode = insertnode;
+            this->nwnode = &insertnode;
             return instancenode;
         }
 
@@ -152,7 +162,6 @@ namespace  ft
 
         node* deleteNode(node* root, key_type key)
         {
-            hidefakenode(this->mother);
             if (root == nullptr)
                 return root;
             if (root->getkey() != key)
@@ -164,7 +173,6 @@ namespace  ft
             }
             else
             {
-                // std::cout << "| " << key << "\n";
                 if( (root->left == nullptr) ||
                     (root->right == nullptr) )
                 {
@@ -216,11 +224,27 @@ namespace  ft
                     return leftRotate(root);
                 }
             }
-            addfakenode(this->mother);
+            this->size--;
             return root;
     }
 
-    mapped_type find(const key_type&src)
+    node *find(const key_type&src)const
+    {
+        node    *actualnode = this->mother;
+        while (actualnode != nullptr && actualnode->getkey() != src)
+        {
+            if (this->comparator(actualnode->getkey() , src) == 0)
+            {
+                actualnode = actualnode->left;
+            }
+            else
+                actualnode = actualnode->right;
+        }
+        std::cout << actualnode << std::endl;
+        return(actualnode);
+    }
+
+    mapped_type &findm(const key_type&src)
     {
         node    *actualnode(this->mother);
         while (actualnode->getkey() != src && actualnode != nullptr)
@@ -232,7 +256,7 @@ namespace  ft
             else
                 actualnode == actualnode->right;
         }
-        return(actualnode->getvalue());
+        return(actualnode->content);
     }
 
     void    addfakenode(node *actualnode)
@@ -246,13 +270,13 @@ namespace  ft
         actualnode = this->mother;
         while (actualnode->right != nullptr)
         {
-            actualnode = actualnode->parent;
+            actualnode = actualnode->right;
         }
         actualnode->right = this->end;
         this->end->parent = actualnode;
     }
 
-    void    hidefakenode(node *actualnode)
+    void    hidefakenode(void)
     {
         this->start->parent->left   = nullptr;
         this->end->parent->right    = nullptr;
@@ -260,12 +284,23 @@ namespace  ft
         this->end->parent           = nullptr;
     }
 
+        void clear_three(pointer first)
+        {
+            if (first->left && first->left != start)
+                clear_three(first->left);
+            if (first->right && first->right != end)
+                clear_three(first->right);
+            this->allocator.destroy(first);
+            this->allocator.deallocate(first, 1);
+        }
+
     node    *getstart(void) const           {return(this->start->parent);}
     node    *getend(void)const              {return(this->end);}
     node    *getrbegin(void)const           {return(this->end->parent);}
     node    *getrend(void)const             {return(this->start);}
     node    *getmother(void) const          {return(this->mother);}
     node    *getnewnode(void) const         {return(this->nwnode);}
+    size_type   getsize(void)   const       {return(this->size);}
     private:
         node            *mother;
         node            *start;

@@ -289,27 +289,38 @@
 // }
 
 // #include "map.hpp"
-#include "debug.hpp"
-#include "map.hpp"
+// #include "debug.hpp"
+// #include "map.hpp"
 
-int main (void)
-{
-	ft::three<int, int> mapped;
+// int main (void)
+// {
+// 	ft::map<int, int> mapped;
 
-	ft::node<int, int>	nnode(nullptr, nullptr, nullptr, ft::make_pair(15,2));
+// 	ft::node<int, int>	nnode(nullptr, nullptr, nullptr, ft::make_pair(15,2));
 
-	for(int i = 0; i < 10; i++)
-	{
-		mapped.r_insert(nnode);
-		nnode.content.first = i;
-	}
-	ft::debug_tree(mapped.getmother(), 20);
-	for(int i = 0; i < 10; i++)
-	{
-		mapped.deleteNode(mapped.getmother(), i);
-		std::cout << "\n------------------------------\n";
-		ft::debug_tree(mapped.getmother(), 20);
-	}
-	mapped.deleteNode(mapped.getmother(), 15);
+// 	for(int i = 0; i < 10; i++)
+// 	{
+// 		mapped.insert(ft::make_pair(i, i));
+// 		nnode.content.first = i;
+// 	}
+// 	ft::debug_tree(mapped.getmom(), 20);
 
-}
+// 	ft::map<int,int>::iterator it = mapped.begin();
+// 	while (it != mapped.end())
+// 	{
+// 		std::cout << "IT = "<<it->second << std::endl;
+// 		++it;
+// 	}
+	
+// 	for(int i = 0; i < 10; i++)
+// 	{
+// 		mapped.erase(i);
+// 		std::cout << "\n------------------------------\n";
+// 		ft::debug_tree(mapped.getmom(), 20);
+// 	}
+// 	mapped.erase(15);
+// 	std::cout << "\n------------------------------\n";
+
+
+
+// }

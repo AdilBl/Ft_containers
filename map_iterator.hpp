@@ -13,14 +13,14 @@
 namespace ft
 {
 
-template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<std::pair<const Key, T> > >
+template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<ft::pair<Key, T> > >
 
 class map_iterator
 {
 	public:
 		typedef Key									key_type;
 		typedef T									mapped_type;
-		typedef std::pair<const Key, T>				value_type;
+		typedef ft::pair<Key, T>			    	value_type;
 		typedef	Compare								key_compare;
 		typedef	Alloc								allocator_type;
 		typedef value_type&							reference;
@@ -57,11 +57,11 @@ class map_iterator
         {
             if (this->index->right == nullptr)
             {
-                this->index = this->index->parent;
-                while (this->index->parent != nullptr && this->index->parent->right == this->index)
+                while (this->index->parent != nullptr && this->index == this->index->parent->right)
                 {
                     this->index = this->index->parent;
                 }
+                this->index = this->index->parent;
             }
             else
             {
@@ -76,13 +76,13 @@ class map_iterator
         map_iterator     operator++(int)
         {
             map_iterator tamp(*this);
-                        if (this->index->right == nullptr)
+            if (this->index->right == nullptr)
             {
-                this->index = this->index->parent;
-                while (this->index->parent != nullptr && this->index->parent->right == this->index)
+                while (this->index->parent != nullptr && this->index == this->index->parent->right)
                 {
                     this->index = this->index->parent;
                 }
+                this->index = this->index->parent;
             }
             else
             {
@@ -98,11 +98,11 @@ class map_iterator
         {
             if (this->index->left == nullptr)
             {
-                this->index = this->index->parent;
                 while (this->index->parent != nullptr && this->index->parent->left == this->index)
                 {
                     this->index = this->index->parent;
                 }
+                this->index = this->index->parent;
             }
             else
             {
@@ -119,11 +119,11 @@ class map_iterator
             map_iterator tamp(*this);
             if (this->index->left == nullptr)
             {
-                this->index = this->index->parent;
                 while (this->index->parent != nullptr && this->index->parent->left == this->index)
                 {
                     this->index = this->index->parent;
                 }
+                this->index = this->index->parent;
             }
             else
             {
@@ -139,8 +139,8 @@ class map_iterator
         //
         reference           operator*()         {return (*this->index->content);}
         const_reference     operator*() const   {return (*this->index->content);}
-        pointer             operator->()        {return (this->index->content);}
-        pointer             operator->()const   {return (this->index->content);}
+        pointer             operator->()        {return (this->index->get_ptr_pair());}
+        pointer             operator->()const   {return (this->index->get_ptr_pair());}
 
         private:
             node *     index;
