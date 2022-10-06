@@ -6,7 +6,6 @@
 # include <cstddef>
 # include <tgmath.h>
 # include "pair.hpp"
-// # include "utils.hpp"
 
 namespace ft
 {
@@ -46,10 +45,6 @@ namespace ft
 				}
 				return(*this);
 			}
-			// bool operator< (const node<key,value>& lhs, const node<key,value>& rhs)   {return(ft::lexicographical_compare(lhs.content.first.begin(), lhs.content.first.end(), rhs.content.first.begin(), rhs.content.first.end()));}
-			// bool operator<=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(!ft::lexicographical_compare(rhs.content.first.begin(), rhs.content.first.end(), lhs.content.first.begin(), lhs.content.first.end()));}
-			// bool operator> (const node<key,value>& lhs, const node<key,value>& rhs)   {return(ft::lexicographical_compare(rhs.content.first.begin(), rhs.content.first.end(), lhs.content.first.begin(), lhs.content.first.end()));}
-			// bool operator>=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(!ft::lexicographical_compare(lhs.content.first.begin(), lhs.content.first.end(), rhs.content.first.begin(), rhs.content.first.end()));}
 
 			int height(node *n)
 			{
@@ -67,7 +62,17 @@ namespace ft
 			{
     			return (height(left) - height(right));
 			}
+			bool    operator==(const node& x)     {return (x.content == this->content);}
+        	bool    operator!=(const node& x)     {return (x.content != this->content);}
 	};
+	template <class key, class value>
+	bool operator< (const node<key,value>& lhs, const node<key,value>& rhs)   {return(lhs.content < rhs.content);}
+	template <class key, class value>
+	bool operator<=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(lhs.content <= rhs.content);}
+	template <class key, class value>
+	bool operator> (const node<key,value>& lhs, const node<key,value>& rhs)   {return(lhs.content > rhs.content);}
+	template <class key, class value>
+	bool operator>=(const node<key,value>& lhs, const node<key,value>& rhs)   {return(lhs.content >= rhs.content);}
 }
 
 #endif

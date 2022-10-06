@@ -1,15 +1,14 @@
 #ifndef PAIR_HPP
 # define PAIR_HPP
 
-// #include "utils.hpp"
-
 namespace ft
 {
     template <class U, class L>
     struct pair
     {
-        typedef U         key_type;
-        typedef L       value_type;
+        typedef U                           key_type;
+        typedef L                           value_type;
+        typedef pair<key_type,value_type>   paire;
 
         key_type         first;
         value_type       second;
@@ -28,12 +27,18 @@ namespace ft
             return *this;
         }
         virtual ~pair()                     {;}
-        // bool operator<(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(ft::lexicographical_compare(lhs.first.begin(), lhs.first.end(), rhs.first.begin(), rhs.first.end()));}
-		// bool operator<=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(!ft::lexicographical_compare(rhs.first.begin(), rhs.first.end(), lhs.first.begin(), lhs.first.end()));}
-		// bool operator>(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(ft::lexicographical_compare(rhs.first.begin(), rhs.first.end(), lhs.first.begin(), lhs.first.end()));}
-		// bool operator>=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(!ft::lexicographical_compare(lhs.first.begin(), lhs.first.end(), rhs.first.begin(), rhs.first.end()));}
+        bool    operator==(const paire& x)     {return (x.first == this->first && x.second == this->second);}
+        bool    operator!=(const paire& x)     {return (x.first != this->first && x.second != this->second);}
     };
 
+    template <class key_type, class value_type>
+    bool operator< (const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first < rhs.first && (!(rhs.first < lhs.first))  && lhs.seconde < rhs.second);}
+    template <class key_type, class value_type>
+    bool operator<=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first <= rhs.first && (!(rhs.first <= lhs.first))  && lhs.seconde <= rhs.second);}
+    template <class key_type, class value_type>
+    bool operator> (const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first > rhs.first && (!(rhs.first > lhs.first))  && lhs.seconde > rhs.second);}
+    template <class key_type, class value_type>
+    bool operator>=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first >= rhs.first && (!(rhs.first >= lhs.first))  && lhs.seconde >= rhs.second);}
     template <class key,class value>
     ft::pair<key,value> 	make_pair (key x, value y)		{return (ft::pair<key,value>(x,y));}
 }

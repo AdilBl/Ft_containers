@@ -13,7 +13,7 @@
 namespace ft
 {
 
-template<class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<std::pair<const Key, T> > >
+template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<std::pair<const Key, T> > >
 
 class map_iterator
 {
@@ -29,6 +29,7 @@ class map_iterator
 		typedef const value_type*					const_pointer;
 		typedef	ptrdiff_t							difference_type;
 		typedef size_t								size_type;
+        typedef node<key_type, mapped_type>         node;
         map_iterator(void)                          {this->index = nullptr;}
         map_iterator(node *i)                       {this->index = i;}
         map_iterator (const map_iterator& x)        {*this = x;}
@@ -41,36 +42,114 @@ class map_iterator
             this->index = x.index;
             return (*this);
         }
+
         node *base (void) const     {return (this->index);}
         //bool
-        bool    operator<(const map_iterator& x)     {return (this->index < x.index);}
-        bool    operator<=(const map_iterator& x)     {return (this->index <= x.index);}
-        bool    operator>=(const map_iterator& x)     {return (this->index >= x.index);}
-        bool    operator>(const map_iterator& x)     {return (this->index > x.index);}
+        bool    operator<(const map_iterator& x)     {return (this->index->content.second < x.index.content.second);}
+        bool    operator<=(const map_iterator& x)     {return (this->index->content.second <= x.index.content.second);}
+        bool    operator>=(const map_iterator& x)     {return (this->index->content.second >= x.index.content.second);}
+        bool    operator>(const map_iterator& x)     {return (this->index->content.second > x.index.content.second);}
         bool    operator==(const map_iterator& x)     {return (this->index == x.index);}
         bool    operator!=(const map_iterator& x)     {return (this->index != x.index);}
         //
-        difference_type    operator+(const map_iterator& x)  {return (this->index + x.index);}
-        difference_type    operator-(const map_iterator& x)  {return (this->index - x.index);}
-        map_iterator    operator+(const difference_type& x)  {return map_iterator(this->index + x);}
-        map_iterator    operator-(const difference_type& x)  {return map_iterator(this->index - x);}
+        difference_type    operator+(const map_iterator& x)  {return (this->index->content.second + x.index.content.second);}
+        difference_type    operator-(const map_iterator& x)  {return (this->index->content.second - x.index.content.second);}
+        map_iterator    operator+(const difference_type& x)  {return map_iterator(this->index->content.second + x.content.second);}
+        map_iterator    operator-(const difference_type& x)  {return map_iterator(this->index->content.second - x.content.second);}
 
         void    operator+=(const map_iterator& x)  {return (this->index += x.index);}
         void    operator-=(const map_iterator& x)  {return (this->index -= x.index);}
 
         //
-        map_iterator     operator++(void)        {this->index++; return(*this);}
-        map_iterator     operator++(int)         {map_iterator tamp(*this); ++this->index; return(tamp);}
-        map_iterator     operator--(void)        {this->index--; return(*this);}
-        map_iterator     operator--(int)         {map_iterator tamp(*this); --this->index; return(tamp);}
+        map_iterator     operator++(void)
+        {
+            if (this->index->right == nullptr)
+            {
+                this->index = this->index->parent;
+                while (this->index->parent != nullptr && this->index->parent->right == this->index)
+                {
+                    this->index = this->index->parent;
+                }
+            }
+            else
+            {
+                this->index = this->index->right;
+                while (this->index->left != nullptr)
+                {
+                    this->index = this->index->left;
+                }
+            }
+            return(*this);
+        }
+        map_iterator     operator++(int)
+        {
+            map_iterator tamp(*this);
+                        if (this->index->right == nullptr)
+            {
+                this->index = this->index->parent;
+                while (this->index->parent != nullptr && this->index->parent->right == this->index)
+                {
+                    this->index = this->index->parent;
+                }
+            }
+            else
+            {
+                this->index = this->index->right;
+                while (this->index->left != nullptr)
+                {
+                    this->index = this->index->left;
+                }
+            }
+            return(tamp);
+        }
+        map_iterator     operator--(void)
+        {
+            if (this->index->left == nullptr)
+            {
+                this->index = this->index->parent;
+                while (this->index->parent != nullptr && this->index->parent->left == this->index)
+                {
+                    this->index = this->index->parent;
+                }
+            }
+            else
+            {
+                this->index = this->index->left;
+                while (this->index->right != nullptr)
+                {
+                    this->index = this->index->right;
+                }
+            }
+            return(*this);
+        }
+        map_iterator     operator--(int)
+        {
+            map_iterator tamp(*this);
+            if (this->index->left == nullptr)
+            {
+                this->index = this->index->parent;
+                while (this->index->parent != nullptr && this->index->parent->left == this->index)
+                {
+                    this->index = this->index->parent;
+                }
+            }
+            else
+            {
+                this->index = this->index->left;
+                while (this->index->right != nullptr)
+                {
+                    this->index = this->index->right;
+                }
+            }
+            return(tamp);
+            }
 
         //
-        reference           operator*() {return (*this->index);}
-        const_reference     operator*() const {return (*this->index);}
-        pointer             operator->() {return (this->index);}
-        pointer             operator->() const {return (this->index);}
-        reference           operator[](const difference_type& x) {return (*(this->index + x));}
-        const_reference     operator[](const difference_type& x) const {return (*(this->index + x));}
+        reference           operator*() {return (*this->index->content.second);}
+        const_reference     operator*() const {return (*this->index->content.second));}
+        pointer             operator->() {return (this->index->content.second));}
+        pointer             operator->() const {return (this->index->content.second));}
+
         private:
             node *     index;
             
@@ -116,7 +195,5 @@ class map_iterator
     // typename ft::map_iterator<U >::difference_type operator-(const ft::map_iterator<V > &rhs, const ft::map_iterator<U > &lhs)    { return (rhs.base() - lhs.base()); }
 }
 
-
-};
 
 #endif
