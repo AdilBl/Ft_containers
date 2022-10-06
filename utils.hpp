@@ -1,3 +1,6 @@
+#ifndef UTILS_HPP
+#define UTILS_HPP
+
 #include <iostream>
 #include <vector>
 #include "pair.hpp"
@@ -45,3 +48,5 @@ namespace ft
     bool operator() (const T& x, const T& y) const {return x<y;}
     };
 }
+
+#endif

@@ -29,6 +29,8 @@ namespace ft
         virtual ~pair()                     {;}
         bool    operator==(const paire& x)     {return (x.first == this->first && x.second == this->second);}
         bool    operator!=(const paire& x)     {return (x.first != this->first && x.second != this->second);}
+
+
     };
 
     template <class key_type, class value_type>

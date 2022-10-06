@@ -1,5 +1,5 @@
-#ifndef MAP_ITERATOR_HPP
-#define MAP_ITERATOR_HPP
+#ifndef REVERSE_MAP_ITERATOR_HPP
+#define REVERSE_MAP_ITERATOR_HPP
 
 # include <memory>
 # include <algorithm>
@@ -15,7 +15,7 @@ namespace ft
 
 template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<std::pair<const Key, T> > >
 
-class map_iterator
+class reverse_map_iterator
 {
 	public:
 		typedef Key									key_type;
@@ -30,12 +30,12 @@ class map_iterator
 		typedef	ptrdiff_t							difference_type;
 		typedef size_t								size_type;
         typedef node<key_type, mapped_type>         node;
-        map_iterator(void)                          {this->index = nullptr;}
-        map_iterator(node *i)                       {this->index = i;}
-        map_iterator (const map_iterator& x)        {*this = x;}
-        virtual ~map_iterator()                     {}
+        reverse_map_iterator(void)                          {this->index = nullptr;}
+        reverse_map_iterator(node *i)                       {this->index = i;}
+        reverse_map_iterator (const reverse_map_iterator& x)        {*this = x;}
+        virtual ~reverse_map_iterator()                     {}
 
-        map_iterator& operator= (const map_iterator& x)
+        reverse_map_iterator& operator= (const reverse_map_iterator& x)
         {
             if (this == &x)
                 return (*this);
@@ -45,21 +45,21 @@ class map_iterator
 
         node *base (void) const     {return (this->index);}
         //bool
-        bool    operator<(const map_iterator& x)     {return (this->index <  x.index);}
-        bool    operator<=(const map_iterator& x)    {return (this->index <= x.index);}
-        bool    operator>=(const map_iterator& x)    {return (this->index >= x.index);}
-        bool    operator>(const map_iterator& x)     {return (this->index >  x.index);}
-        bool    operator==(const map_iterator& x)    {return (this->index == x.index);}
-        bool    operator!=(const map_iterator& x)    {return (this->index != x.index);}
+        bool    operator<(const reverse_map_iterator& x)     {return (this->index <  x.index);}
+        bool    operator<=(const reverse_map_iterator& x)    {return (this->index <= x.index);}
+        bool    operator>=(const reverse_map_iterator& x)    {return (this->index >= x.index);}
+        bool    operator>(const reverse_map_iterator& x)     {return (this->index >  x.index);}
+        bool    operator==(const reverse_map_iterator& x)    {return (this->index == x.index);}
+        bool    operator!=(const reverse_map_iterator& x)    {return (this->index != x.index);}
         //
-        difference_type     operator+(const map_iterator& x)  {return (this->index->content.second + x.index.content.second);}
-        difference_type     operator-(const map_iterator& x)  {return (this->index->content.second - x.index.content.second);}
+        difference_type     operator+(const reverse_map_iterator& x)  {return (this->index->content.second + x.index.content.second);}
+        difference_type     operator-(const reverse_map_iterator& x)  {return (this->index->content.second - x.index.content.second);}
         
-        void    operator+=(const map_iterator& x)  {return (this->index += x.index);}
-        void    operator-=(const map_iterator& x)  {return (this->index -= x.index);}
+        void    operator+=(const reverse_map_iterator& x)  {return (this->index += x.index);}
+        void    operator-=(const reverse_map_iterator& x)  {return (this->index -= x.index);}
 
         //
-        map_iterator     operator++(void)
+        reverse_map_iterator     operator--(void)
         {
             if (this->index->right == nullptr)
             {
@@ -79,9 +79,9 @@ class map_iterator
             }
             return(*this);
         }
-        map_iterator     operator++(int)
+        reverse_map_iterator     operator--(int)
         {
-            map_iterator tamp(*this);
+            reverse_map_iterator tamp(*this);
                         if (this->index->right == nullptr)
             {
                 this->index = this->index->parent;
@@ -100,7 +100,7 @@ class map_iterator
             }
             return(tamp);
         }
-        map_iterator     operator--(void)
+        reverse_map_iterator     operator++(void)
         {
             if (this->index->left == nullptr)
             {
@@ -120,9 +120,9 @@ class map_iterator
             }
             return(*this);
         }
-        map_iterator     operator--(int)
+        reverse_map_iterator     operator++(int)
         {
-            map_iterator tamp(*this);
+            reverse_map_iterator tamp(*this);
             if (this->index->left == nullptr)
             {
                 this->index = this->index->parent;
@@ -155,31 +155,31 @@ class map_iterator
 
 
     template <class key, class T>
-    bool    operator<(const map_iterator<key, T> &lhs, const map_iterator<key, T> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const reverse_map_iterator<key, T> &lhs, const reverse_map_iterator<key, T> &rhs)     {return (lhs.index < rhs.index);}
     template <class key, class T>
-    bool    operator<=(const map_iterator<key, T> &lhs, const map_iterator<key, T> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const reverse_map_iterator<key, T> &lhs, const reverse_map_iterator<key, T> &rhs)     {return (lhs.index <= rhs.index);}
     template <class key, class T>
-    bool    operator>(const map_iterator<key, T> &lhs, const map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const reverse_map_iterator<key, T> &lhs, const reverse_map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
     template <class key, class T>
-    bool    operator>=(const map_iterator<key, T> &lhs, const map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>=(const reverse_map_iterator<key, T> &lhs, const reverse_map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
     template <class key, class T>
-    bool    operator==(const map_iterator<key, T> &lhs, const map_iterator<key, T> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const reverse_map_iterator<key, T> &lhs, const reverse_map_iterator<key, T> &rhs)     {return (lhs.index == rhs.index);}
     template <class key, class T>
-    bool    operator!=(const map_iterator<key, T> &lhs, const map_iterator<key, T> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const reverse_map_iterator<key, T> &lhs, const reverse_map_iterator<key, T> &rhs)     {return (lhs.index != rhs.index);}
 
     // template <typename T  >
-    // ft::map_iterator<T > operator+(typename ft::map_iterator<T >::difference_type rhs, const ft::map_iterator<T > &lhs)                        { return (lhs.base() + rhs); }
+    // ft::reverse_map_iterator<T > operator+(typename ft::reverse_map_iterator<T >::difference_type rhs, const ft::reverse_map_iterator<T > &lhs)                        { return (lhs.base() + rhs); }
 
     // template <typename T  >
-    // ft::map_iterator<T > operator+(const ft::map_iterator<T > &rhs, typename ft::map_iterator<T >::difference_type lhs)                        { return (rhs.base() + lhs); }
+    // ft::reverse_map_iterator<T > operator+(const ft::reverse_map_iterator<T > &rhs, typename ft::reverse_map_iterator<T >::difference_type lhs)                        { return (rhs.base() + lhs); }
 
     // template <typename T  >
-    // ft::map_iterator<T > operator-(const ft::map_iterator<T > &rhs, typename ft::map_iterator<T >::difference_type lhs)                        { return (rhs.base() - lhs); }
+    // ft::reverse_map_iterator<T > operator-(const ft::reverse_map_iterator<T > &rhs, typename ft::reverse_map_iterator<T >::difference_type lhs)                        { return (rhs.base() - lhs); }
 
     // template <typename T  >
-    // typename ft::map_iterator<T >::difference_type operator-(const ft::map_iterator<T > &rhs, const ft::map_iterator<T > &lhs)                { return (rhs.base() - lhs.base()); }
+    // typename ft::reverse_map_iterator<T >::difference_type operator-(const ft::reverse_map_iterator<T > &rhs, const ft::reverse_map_iterator<T > &lhs)                { return (rhs.base() - lhs.base()); }
     // template <typename U, typename V  >
-    // typename ft::map_iterator<U >::difference_type operator-(const ft::map_iterator<V > &rhs, const ft::map_iterator<U > &lhs)    { return (rhs.base() - lhs.base()); }
+    // typename ft::reverse_map_iterator<U >::difference_type operator-(const ft::reverse_map_iterator<V > &rhs, const ft::reverse_map_iterator<U > &lhs)    { return (rhs.base() - lhs.base()); }
 }
 
 

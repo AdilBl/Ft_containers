@@ -291,6 +291,7 @@
 // #include "map.hpp"
 #include "three.hpp"
 #include "debug.hpp"
+#include "map_iterator.hpp"
 
 int main (void)
 {
