@@ -5,6 +5,7 @@
 # include <algorithm>
 # include <cstddef>
 # include <tgmath.h>
+# include <map>
 # include "utils.hpp"
 # include "pair.hpp"
 # include "three.hpp"
@@ -13,11 +14,12 @@
 # include "map_iterator.hpp"
 # include "reverse_map_iterator.hpp"
 # include "const_reverse_map_iterator.hpp"
+# include <iterator>
 
 namespace ft
 {
 
-template<class Key, class T, class Compare = ft::less<Key>,class Alloc = std::allocator<ft::pair<Key, T> > >
+template<class Key, class T, class Compare = ft::less<Key>,class Alloc = std::allocator<ft::node<Key, T> > >
 
 class map
 {
@@ -49,12 +51,12 @@ class map
 				bool operator() (const value_type& x, const value_type& y) const{return comp(x.first, y.first);}
 		};
 
-		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+		explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):three()
 		{
 			this->_allocator = alloc;
 			this->comp = comp;
-			this->three = ft::three<key_type, mapped_type>(comp, alloc);	
 		}
+
 		template <class InputIterator>
 		map (InputIterator first, InputIterator last,const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
 		{
@@ -77,21 +79,21 @@ class map
 				this->_allocator = x._allocator;
 				this->comp = x.comp;
 				clear();
-				for(iterator it = x.begin(); it != x.end(); it++)
+				for(const_iterator it = x.begin(); it != x.end(); it++)
 					insert(ft::make_pair(it->first, it->second));
-
 			}
+			return(*this);
 		}
 		virtual ~map()									{}
 		//Capacity
-		bool empty() const			{return(this->size == 0);}
-		size_type size() const		{return(this->size);}
-		size_type max_size() const	{return(this->allocator.max_size());}
+		bool empty() const			{return(this->three.getsize() == 0);}
+		size_type size() const		{return(this->three.getsize());}
+		size_type max_size() const	{return(std::map<key_type, mapped_type>().max_size());}
 
 		//Element acces
 		mapped_type& operator[] (const key_type& k)	
 		{
-			if(this->three.findm(k))
+			if(count(k))
 				return(this->three.findm(k));
 			else
 			{
@@ -118,23 +120,43 @@ class map
 
 		//Iterator
 
-		iterator begin()								{return(this->three.getstart());}
-		const_iterator begin() const					{return(this->three.getstart());}
-		iterator end()									{return(this->three.getend());}
-		const_iterator end() const						{return(this->three.getend());}
-		const_iterator cbegin() const					{return(this->three.getstart());}
-		const_iterator cend() const 					{return(this->three.getend());}
-		reverse_iterator rbegin()						{return(this->three.getrbegin());}
-		const_reverse_iterator rbegin() const			{return(this->three.getrbegin());}
-		reverse_iterator rend()							{return(this->three.getrend());}
-		const_reverse_iterator rend() const				{return(this->three.getrend());}
-		const_reverse_iterator crbegin() const 			{return(this->three.getrbegin());}
-		const_reverse_iterator crend() const 			{return(this->three.getrend());}
+		iterator begin()								
+		{
+			// this->three.addfakenode();
+			if (this->getmom() == nullptr)
+				return(iterator(this->three.getend()));
+			return(iterator(this->three.getstart()));
+		}
+		const_iterator begin() const					
+		{
+			if (this->getmom() == nullptr)
+				return(const_iterator(this->three.getend()));
+			return(const_iterator(this->three.getstart()));
+		}
+		iterator end()									{return(iterator(this->three.getend()));}
+		const_iterator end() const						{return(const_iterator(this->three.getend()));}
+		const_iterator cbegin() const					{return(const_iterator(this->three.getstart()));}
+		const_iterator cend() const 					{return(const_iterator(this->three.getend()));}
+		reverse_iterator rbegin()						{return(reverse_iterator(this->three.getrbegin()));}
+		const_reverse_iterator rbegin() const			{return(const_reverse_iterator(this->three.getrbegin()));}
+		reverse_iterator rend()							
+		{
+			if (this->getmom() == nullptr)
+				return(reverse_iterator(this->three.getend()->parent));	
+			return(reverse_iterator(this->three.getrend()));
+		}
+		const_reverse_iterator rend() const
+		{
+			if (this->getmom() == nullptr)
+				return(const_reverse_iterator(this->three.getend()->parent));	
+			return(const_reverse_iterator(this->three.getrend()));
+		}
+		const_reverse_iterator crbegin() const 			{return(const_reverse_iterator(this->three.getrbegin()));}
+		const_reverse_iterator crend() const 			{return(const_reverse_iterator(this->three.getrend()));}
 
 		//Modifiers
 		pair<iterator,bool> insert (const_reference val)
 		{
-			std::cout << "-\n";
 			if (count(val.first) == 1)
 				return pair<iterator,bool>(find(val.first), false);
 			ft::node<key_type, mapped_type> nw(nullptr, nullptr, nullptr, ft::make_pair(val.first, val.second));
@@ -156,10 +178,12 @@ class map
 				first++;
 			}
 		}
+		
 		void erase (iterator position)
 		{
-			this->three.r_delete(*position.getkey());
+			this->three.r_delete(position->first);
 		}
+
 		size_type erase (const key_type& k)
 		{
 			this->three.r_delete(k);
@@ -167,18 +191,27 @@ class map
 		}
 		void erase (iterator first, iterator last)
 		{
-			while (first != last)
+			size_type i = ft::distance(first, last);
+			for(size_type k = 0; k < i && first != last ; k++)
 			{
-				this->three.r_delete();
+				erase(first++);
 			}
 		}
 		void swap (map& x)
 		{
-			std::swap(*this, x);
+			std::swap(this->comp, x.comp);
+			std::swap(this->three, x.three);
+			std::swap(this->_allocator, x._allocator);
 		}
 		void clear()
 		{
-			this->three.clear_three(this->three.getmother);
+			if (this->three.getsize() != 0)
+			{
+				this->three.hidefakenode();
+				this->three.clear_three(this->three.getmother());
+			}
+			this->three.setsize(0);
+			this->three.setmom();
 		}
 		//Obserbvers
 		key_compare key_comp() const					{return (key_compare());}
@@ -261,11 +294,52 @@ class map
 		
 	private:
 		allocator_type							_allocator;
-		three<key_type, mapped_type>			three;
+		three<key_type, mapped_type, Compare, Alloc>			three;
 		key_compare     						comp;
 };
 
+	template <class _Key, class _Tp, class _Compare, class _Allocator>
+    bool operator==(const ft::map<_Key, _Tp, _Compare, _Allocator>& x, const ft::map<_Key, _Tp, _Compare, _Allocator>& y)
+    {
+        return x.size() == y.size() && ft::equal(x.begin(), x.end(), y.begin());
+    }
 
+	template <class _Key, class _Tp, class _Compare, class _Allocator>
+    bool operator!=(const ft::map<_Key, _Tp, _Compare, _Allocator>& x, const ft::map<_Key, _Tp, _Compare, _Allocator>& y)
+    {
+        return !(x == y);
+    }
+
+	template <class _Key, class _Tp, class _Compare, class _Allocator>
+    bool operator<(const ft::map<_Key, _Tp, _Compare, _Allocator>& lhs, const ft::map<_Key, _Tp, _Compare, _Allocator>& rhs)
+    {
+        return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+    }
+
+	template <class _Key, class _Tp, class _Compare, class _Allocator>
+    bool operator<=(const ft::map<_Key, _Tp, _Compare, _Allocator>& lhs, const ft::map<_Key, _Tp, _Compare, _Allocator>& rhs)
+    {
+        return !(rhs < lhs);
+    }
+
+
+	template <class _Key, class _Tp, class _Compare, class _Allocator>
+    bool operator>(const ft::map<_Key, _Tp, _Compare, _Allocator>& lhs, const ft::map<_Key, _Tp, _Compare, _Allocator>& rhs)
+    {
+		return(ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
+	}
+
+	template <class _Key, class _Tp, class _Compare, class _Allocator>
+    bool operator>=(const ft::map<_Key, _Tp, _Compare, _Allocator>& lhs, const ft::map<_Key, _Tp, _Compare, _Allocator>& rhs)
+    {
+		return(!(rhs > lhs));
+	}
+
+	template <class _Key, class _Tp, class _Compare, class _Allocator>
+    void swap(const ft::map<_Key, _Tp, _Compare, _Allocator>& x, const ft::map<_Key, _Tp, _Compare, _Allocator>& y)
+	{
+		std::swap(x, y);
+	}
 
 }
 #endif

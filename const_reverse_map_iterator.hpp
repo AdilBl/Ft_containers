@@ -146,17 +146,17 @@ class const_reverse_map_iterator
 
 
     template <class key, class T>
-    bool    operator<(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.base() < rhs.base());}
     template <class key, class T>
-    bool    operator<=(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.base() <= rhs.base());}
     template <class key, class T>
-    bool    operator>(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.base() > rhs.base());}
     template <class key, class T>
-    bool    operator>=(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>=(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.base() >= rhs.base());}
     template <class key, class T>
-    bool    operator==(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.base() == rhs.base());}
     template <class key, class T>
-    bool    operator!=(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const const_reverse_map_iterator<key, T> &lhs, const const_reverse_map_iterator<key, T> &rhs)     {return (lhs.base() != rhs.base());}
 
     // template <typename T  >
     // ft::const_reverse_map_iterator<T > operator+(typename ft::const_reverse_map_iterator<T >::difference_type rhs, const ft::const_reverse_map_iterator<T > &lhs)                        { return (lhs.base() + rhs); }

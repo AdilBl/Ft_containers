@@ -8,6 +8,7 @@
 # include <queue>
 # include <iostream>
 # include "vector.hpp"
+# include "map.hpp"
 
 # ifdef __linux__
 #  define RESET "\e[0m"
@@ -75,5 +76,23 @@ bool operator==(ft::vector<T> &a, std::vector<T> &b)
 	return (true);
 };
 
+template <typename T, typename S>
+bool operator==(ft::map<T, S> &a, std::map<T, S> &b)
+{
+	if (a.size() != b.size())
+		return (false);
+	if (a.empty() != b.empty())
+		return (false);
+	typename ft::map<T, S>::iterator it = a.begin();
+	typename std::map<T, S>::iterator it2 = b.begin();
+	while (it != a.end())
+	{
+		if (it->first != it2->first || it->second != it2->second)
+			return (false);
+		++it;
+		++it2;
+	}
+	return (true);
+};
 
 #endif

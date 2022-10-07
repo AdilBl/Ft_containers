@@ -33,14 +33,56 @@ namespace ft
 
     };
 
-    template <class key_type, class value_type>
-    bool operator< (const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first < rhs.first && (!(rhs.first < lhs.first))  && lhs.seconde < rhs.second);}
-    template <class key_type, class value_type>
-    bool operator<=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first <= rhs.first && (!(rhs.first <= lhs.first))  && lhs.seconde <= rhs.second);}
-    template <class key_type, class value_type>
-    bool operator> (const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first > rhs.first && (!(rhs.first > lhs.first))  && lhs.seconde > rhs.second);}
-    template <class key_type, class value_type>
-    bool operator>=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first >= rhs.first && (!(rhs.first >= lhs.first))  && lhs.seconde >= rhs.second);}
+    template <class _T1, class _T2>
+    bool
+    operator==(const pair<_T1,_T2>& x, const pair<_T1,_T2>& y)
+    {
+        return x.first == y.first && x.second == y.second;
+    }
+
+    template <class _T1, class _T2>
+    bool
+    operator!=(const pair<_T1,_T2>& x, const pair<_T1,_T2>& y)
+    {
+        return !(x == y);
+    }
+
+    template <class _T1, class _T2>
+    bool
+    operator< (const pair<_T1,_T2>& x, const pair<_T1,_T2>& y)
+    {
+        return x.first < y.first || (!(y.first < x.first) && x.second < y.second);
+    }
+
+    template <class _T1, class _T2>
+    bool
+    operator> (const pair<_T1,_T2>& x, const pair<_T1,_T2>& y)
+    {
+        return y < x;
+    }
+
+    template <class _T1, class _T2>
+    bool
+    operator>=(const pair<_T1,_T2>& x, const pair<_T1,_T2>& y)
+    {
+        return !(x < y);
+    }
+
+    template <class _T1, class _T2>
+    bool
+    operator<=(const pair<_T1,_T2>& x, const pair<_T1,_T2>& y)
+    {
+        return !(y < x);
+    }
+    
+    // template <class key_type, class value_type>
+    // bool operator< (const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first < rhs.first && (!(rhs.first < lhs.first))  && lhs.seconde < rhs.second);}
+    // template <class key_type, class value_type>
+    // bool operator<=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first <= rhs.first && (!(rhs.first <= lhs.first))  && lhs.seconde <= rhs.second);}
+    // template <class key_type, class value_type>
+    // bool operator> (const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first > rhs.first && (!(rhs.first > lhs.first))  && lhs.seconde > rhs.second);}
+    // template <class key_type, class value_type>
+    // bool operator>=(const pair<key_type,value_type>& lhs, const pair<key_type,value_type>& rhs)   {return(lhs.first >= rhs.first && (!(rhs.first >= lhs.first))  && lhs.seconde >= rhs.second);}
     template <class key,class value>
     ft::pair<key,value> 	make_pair (key x, value y)		{return (ft::pair<key,value>(x,y));}
 }

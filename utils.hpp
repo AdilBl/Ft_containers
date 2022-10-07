@@ -47,6 +47,17 @@ namespace ft
     template <class T> struct less : binary_function <T,T,bool> {
     bool operator() (const T& x, const T& y) const {return x<y;}
     };
+
+    template <class It1, class It2> 
+    size_t distance(It1 first, It2 last)
+    {
+        size_t result = 0;
+        while (first != last) {
+            ++first;
+            ++result;
+        }
+        return result;
+    }
 }
 
 #endif

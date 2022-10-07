@@ -40,12 +40,20 @@ namespace ft
 				deep = 1;
 			}
 
+			node(pair	val)
+			{
+				parent = nullptr;
+				left = nullptr;
+				right = nullptr;
+				content = val;
+				deep = 1;
+			}
+
 			pair * get_ptr_pair(void)
             {
-
                 return ((reinterpret_cast<pair *>((&this->content))));
             }
-			
+
 			node (const node& x)			{*this = x;}
 			virtual	~node()					{}
 			node& operator= (const node& x)

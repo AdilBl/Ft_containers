@@ -70,29 +70,29 @@ namespace ft
     };
 
     template <typename T>
-    bool    operator<(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() < rhs.base());}
     template <typename T, typename U>
-    bool    operator<(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() < rhs.base());}
     template <typename T>
-    bool    operator<=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() <= rhs.base());}
     template <typename T, typename U>
-    bool    operator<=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() <= rhs.base());}
     template <typename T>
-    bool    operator>(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() > rhs.base());}
     template <typename T, typename U>
-    bool    operator>(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() > rhs.base());}
     template <typename T>
-    bool    operator>=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index >= rhs.index);}
+    bool    operator>=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() >= rhs.base());}
     template <typename T, typename U>
-    bool    operator>=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index >= rhs.index);}
+    bool    operator>=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() >= rhs.base());}
     template <typename T>
-    bool    operator==(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() == rhs.base());}
     template <typename T, typename U>
-    bool    operator==(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() == rhs.base());}
     template <typename T>
-    bool    operator!=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() != rhs.base());}
     template <typename T, typename U>
-    bool    operator!=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() != rhs.base());}
 
 
     template <typename T>

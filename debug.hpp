@@ -18,7 +18,11 @@ namespace ft
                 std::cout << std::setw(indent) << ' ';
             if (p->right)
                 std::cout<<" /\n" << std::setw(indent) << ' ';
-            std::cout<< p->getkey() << "\n ";
+            std::cout<< p->getkey();
+            if (p->parent)
+                std::cout << " | p : " << p->parent->getkey() << std::endl;
+            else
+                std::cout << " | p : (nullptr)" << std::endl;
             if(p->left)
             {
                 std::cout << std::setw(indent) << ' ' <<" \\ \n";

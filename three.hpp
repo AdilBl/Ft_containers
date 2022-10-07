@@ -6,6 +6,8 @@
 # include <cstddef>
 # include <tgmath.h>
 # include <iostream>
+# include <utility>
+# include <string_view>
 # include "pair.hpp"
 # include "node.hpp"
 # include "utils.hpp"
@@ -42,6 +44,25 @@ namespace  ft
             this->allocator.construct(this->start, temp);
             this->allocator.construct(this->end, temp2);
         }
+
+        three(const three &x)
+        {
+            *this = x;
+        }
+
+        three &operator=(const three &x)
+        {
+            if  (this != &x)
+            {
+                this->mother = x.mother;
+                this->allocator = x.allocator;
+                this->comparator = x.comparator;
+                this->size = x.size;
+                this->start = x.start;
+                this->end = x.end;
+            }
+            return(*this);
+        }
         ~three()        {}
 
         void r_insert(node &newnode)
@@ -57,6 +78,7 @@ namespace  ft
             if (this->mother != nullptr)
                 hidefakenode();
             deleteNode(this->mother, key);
+            this->size--;
             if (this->mother != nullptr)
                 addfakenode(this->mother);
         }
@@ -86,10 +108,11 @@ namespace  ft
             node *T2 = x->right;
             x->right = y;
             y->left = T2;
+
             x->parent = y->parent;
             y->parent = x;
-            if (y->right)
-                y->right->parent = y;
+            if (y->left)
+                y->left->parent = y;
             if (y == this->mother)
                 this->mother = x;
             y->uptdatebalance();
@@ -173,8 +196,7 @@ namespace  ft
             }
             else
             {
-                if( (root->left == nullptr) ||
-                    (root->right == nullptr) )
+                if( (root->left == nullptr) || (root->right == nullptr))
                 {
                     node *temp;
                     if (root->left)
@@ -187,7 +209,18 @@ namespace  ft
                         root = nullptr;
                     }
                     else
+                    {
+                        if(root->parent)
+                            temp->parent = root->parent;
                         *root = *temp;
+                    }
+                    if (this->size == 1)
+                    {
+                        this->allocator.destroy(this->mother);
+                        this->allocator.deallocate(this->mother, 1);
+                        this->mother = nullptr;
+                        return  (nullptr);
+                    }
                     this->allocator.destroy(temp);
                     this->allocator.deallocate(temp, 1);
                     temp = nullptr;
@@ -204,7 +237,7 @@ namespace  ft
             root->uptdatebalance();
             int balance = root->getdeep();
             if (balance > 1 && root->left != nullptr &&root->left->getdeep() >= 0)
-                return rightRotate(root); 
+                return rightRotate(root);
             if (balance > 1 && root->left != nullptr && root->left->getdeep() < 0)
             {
                 root->left = leftRotate(root->left);
@@ -224,9 +257,9 @@ namespace  ft
                     return leftRotate(root);
                 }
             }
-            this->size--;
             return root;
     }
+
 
     node *find(const key_type&src)const
     {
@@ -240,23 +273,22 @@ namespace  ft
             else
                 actualnode = actualnode->right;
         }
-        std::cout << actualnode << std::endl;
         return(actualnode);
     }
 
     mapped_type &findm(const key_type&src)
     {
-        node    *actualnode(this->mother);
-        while (actualnode->getkey() != src && actualnode != nullptr)
+        node    *actualnode = this->mother;
+        while (actualnode != nullptr && actualnode->getkey() != src)
         {
             if (this->comparator(actualnode->getkey() , src) == 0)
             {
-                actualnode == actualnode->left;
+                actualnode = actualnode->left;
             }
             else
-                actualnode == actualnode->right;
+                actualnode = actualnode->right;
         }
-        return(actualnode->content);
+        return(actualnode->content.second);
     }
 
     void    addfakenode(node *actualnode)
@@ -284,14 +316,15 @@ namespace  ft
         this->end->parent           = nullptr;
     }
 
-        void clear_three(pointer first)
+        void clear_three(node *first)
         {
-            if (first->left && first->left != start)
+            if (first->left  != nullptr &&  this->start != nullptr && first->left != this->start)
                 clear_three(first->left);
-            if (first->right && first->right != end)
+            if (first->right != nullptr && this->start != nullptr && first->right != this->end)
                 clear_three(first->right);
             this->allocator.destroy(first);
             this->allocator.deallocate(first, 1);
+            first = nullptr;
         }
 
     node    *getstart(void) const           {return(this->start->parent);}
@@ -301,6 +334,13 @@ namespace  ft
     node    *getmother(void) const          {return(this->mother);}
     node    *getnewnode(void) const         {return(this->nwnode);}
     size_type   getsize(void)   const       {return(this->size);}
+    void    setsize(size_type x)            {this->size = x;}
+    void    setmom(void)
+    {
+        // this->allocator.destroy(this->mother);
+        // this->allocator.deallocate(this->mother, 1);
+        this->mother = nullptr;
+    }
     private:
         node            *mother;
         node            *start;

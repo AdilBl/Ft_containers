@@ -1,5 +1,5 @@
-#ifndef CONSTMAP_ITERATOR_HPP
-#define CONSTMAP_ITERATOR_HPP
+#ifndef CONST_MAP_ITERATOR_HPP
+#define CONST_MAP_ITERATOR_HPP
 
 # include <memory>
 # include <algorithm>
@@ -20,7 +20,7 @@ class const_map_iterator
 	public:
 		typedef Key									key_type;
 		typedef T									mapped_type;
-		typedef ft::pair<const Key, T>				value_type;
+		typedef ft::pair<Key, T>				value_type;
 		typedef	Compare								key_compare;
 		typedef	Alloc								allocator_type;
 		typedef value_type&							reference;
@@ -136,7 +136,7 @@ class const_map_iterator
             }
 
         //
-        const_reference     operator*() const   {return (*this->index->content);}
+        const_reference     operator*() const   {return (*this->index->get_ptr_pair());}
         pointer             operator->()const   {return (this->index->get_ptr_pair());}
 
         private:
@@ -146,17 +146,17 @@ class const_map_iterator
 
 
     template <class key, class T>
-    bool    operator<(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.base() < rhs.base());}
     template <class key, class T>
-    bool    operator<=(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.base() <= rhs.base());}
     template <class key, class T>
-    bool    operator>(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.base() > rhs.base());}
     template <class key, class T>
-    bool    operator>=(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>=(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.base() >= rhs.base());}
     template <class key, class T>
-    bool    operator==(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.base() == rhs.base());}
     template <class key, class T>
-    bool    operator!=(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const const_map_iterator<key, T> &lhs, const const_map_iterator<key, T> &rhs)     {return (lhs.base() != rhs.base());}
 
     // template <typename T  >
     // ft::const_map_iterator<T > operator+(typename ft::const_map_iterator<T >::difference_type rhs, const ft::const_map_iterator<T > &lhs)                        { return (lhs.base() + rhs); }

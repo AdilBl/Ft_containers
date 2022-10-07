@@ -69,53 +69,55 @@ namespace ft
     };
 
     template <typename T>
-    bool    operator<(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.base() < rhs.base());}
     template <typename T, typename U>
-    bool    operator<(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.base() < rhs.base());}
     template <typename T>
-    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.base() <= rhs.base());}
     template <typename T, typename U>
-    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.base() <= rhs.base());}
     template <typename T>
-    bool    operator>(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.base() > rhs.base());}
     template <typename T, typename U>
-    bool    operator>(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.base() > rhs.base());}
     template <typename T>
-    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.index >= rhs.index);}
+    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.base() >= rhs.base());}
     template <typename T, typename U>
-    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.index >= rhs.index);}
+    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.base() >= rhs.base());}
     template <typename T>
-    bool    operator==(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.base() == rhs.base());}
     template <typename T, typename U>
-    bool    operator==(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.base() == rhs.base());}
     template <typename T>
-    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<T> &rhs)     {return (lhs.base() != rhs.base());}
     template <typename T, typename U>
-    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const const_vector_reverseiterator<U> &rhs)     {return (lhs.base() != rhs.base());}
+
+    
     template <typename T>
-    bool    operator<(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() < rhs.base());}
     template <typename T, typename U>
-    bool    operator<(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index < rhs.index);}
+    bool    operator<(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() < rhs.base());}
     template <typename T>
-    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() <= rhs.base());}
     template <typename T, typename U>
-    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index <= rhs.index);}
+    bool    operator<=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() <= rhs.base());}
     template <typename T>
-    bool    operator>(const const_vector_reverseiterator<T> &lhs, const  vector_reverseiterator<T> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const const_vector_reverseiterator<T> &lhs, const  vector_reverseiterator<T> &rhs)     {return (lhs.base() > rhs.base());}
     template <typename T, typename U>
-    bool    operator>(const const_vector_reverseiterator<T> &lhs, const  vector_reverseiterator<U> &rhs)     {return (lhs.index > rhs.index);}
+    bool    operator>(const const_vector_reverseiterator<T> &lhs, const  vector_reverseiterator<U> &rhs)     {return (lhs.base() > rhs.base());}
     template <typename T>
-    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index >= rhs.index);}
+    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() >= rhs.base());}
     template <typename T, typename U>
-    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index >= rhs.index);}
+    bool    operator>=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() >= rhs.base());}
     template <typename T>
-    bool    operator==(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() == rhs.base());}
     template <typename T, typename U>
-    bool    operator==(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index == rhs.index);}
+    bool    operator==(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() == rhs.base());}
     template <typename T>
-    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<T> &rhs)     {return (lhs.base() != rhs.base());}
     template <typename T, typename U>
-    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.index != rhs.index);}
+    bool    operator!=(const const_vector_reverseiterator<T> &lhs, const vector_reverseiterator<U> &rhs)     {return (lhs.base() != rhs.base());}
 
     template <typename T>
     ft::const_vector_reverseiterator<T> operator+(typename ft::const_vector_reverseiterator<T >::difference_type rhs, const ft::const_vector_reverseiterator<T > &lhs)                        { return (lhs.base() + rhs); }
