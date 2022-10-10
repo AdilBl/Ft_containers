@@ -5,7 +5,7 @@
 # include <algorithm>
 # include <cstddef>
 # include <tgmath.h>
-# include "utils.hpp"
+# include "../utils.hpp"
 # include "pair.hpp"
 # include "three.hpp"
 # include "map.hpp"
@@ -33,6 +33,7 @@ class const_reverse_map_iterator
         const_reverse_map_iterator(void)                          {this->index = nullptr;}
         const_reverse_map_iterator(node *i)                       {this->index = i;}
         const_reverse_map_iterator (const const_reverse_map_iterator& x)        {*this = x;}
+        const_reverse_map_iterator (const reverse_map_iterator<Key, T>& x)        {this->index = x.base();}
         virtual ~const_reverse_map_iterator()                     {}
 
         const_reverse_map_iterator& operator= (const const_reverse_map_iterator& x)
@@ -136,7 +137,7 @@ class const_reverse_map_iterator
             }
 
         //
-        reference           operator*()         {return (*this->index->content);}
+        reference           operator*()         {return (*this->index->get_ptr_pair());}
         pointer             operator->()        {return (this->index->get_ptr_pair());}
 
         private:

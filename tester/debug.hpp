@@ -1,7 +1,7 @@
 #ifndef DEBUG_HPP
 #define DEBUG_HPP
 
-#include "node.hpp"
+#include "../map/node.hpp"
 #include <iomanip>
 #include <iostream>
 

@@ -7,8 +7,8 @@
 # include <stack>
 # include <queue>
 # include <iostream>
-# include "vector.hpp"
-# include "map.hpp"
+# include "../vector/vector.hpp"
+# include "../map/map.hpp"
 
 # ifdef __linux__
 #  define RESET "\e[0m"
