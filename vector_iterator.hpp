@@ -45,8 +45,8 @@ namespace ft
             vector_iterator    operator+(const difference_type& x)  {return vector_iterator(this->index + x);}
             vector_iterator    operator-(const difference_type& x)  {return vector_iterator(this->index - x);}
 
-            void    operator+=(const vector_iterator& x)  {return (this->index += x.index);}
-            void    operator-=(const vector_iterator& x)  {return (this->index -= x.index);}
+            vector_iterator    &operator+=(const difference_type& x)  {this->index += x;return *this;}
+            vector_iterator    &operator-=(const difference_type& x)  {this->index -= x;return *this;}
 
             //
             vector_iterator     operator++(void)        {this->index++; return(*this);}

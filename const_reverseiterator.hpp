@@ -50,8 +50,8 @@ namespace ft
             const_vector_reverseiterator    operator+(const difference_type& x)  {return const_vector_reverseiterator(this->index - x);}
             const_vector_reverseiterator    operator-(const difference_type& x)  {return const_vector_reverseiterator(this->index + x);}
 
-            void    operator+=(const const_vector_reverseiterator& x)  {return (this->index -= x.index);}
-            void    operator-=(const const_vector_reverseiterator& x)  {return (this->index += x.index);}
+            const_vector_reverseiterator    &operator+=(const difference_type& x)  {this->index -= x;return *this;}
+            const_vector_reverseiterator    &operator-=(const difference_type& x)  {this->index += x;return *this;}
 
             //
             const_vector_reverseiterator     operator++(void)        {this->index--; return(*this);}

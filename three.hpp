@@ -33,9 +33,29 @@ namespace  ft
 
         three(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
         {
-            this->mother = nullptr;
             this->allocator = alloc;
             this->comparator = comp;
+            this->mother = nullptr;
+            set_node();
+        }
+
+        three(const three &x)
+        {
+            *this = x;
+        }
+
+        three(bool x, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+        {
+            this->allocator = alloc;
+            this->comparator = comp;
+            this->mother = nullptr;
+            if (x)
+                set_node();
+        }
+
+        void set_node(void)
+        {
+            this->mother = nullptr;
             this->size = 0;
             this->start = this->allocator.allocate(1);
             this->end = this->allocator.allocate(1);
@@ -43,11 +63,6 @@ namespace  ft
             node temp2;
             this->allocator.construct(this->start, temp);
             this->allocator.construct(this->end, temp2);
-        }
-
-        three(const three &x)
-        {
-            *this = x;
         }
 
         three &operator=(const three &x)
@@ -63,7 +78,22 @@ namespace  ft
             }
             return(*this);
         }
-        ~three()        {}
+
+        ~three()
+        {
+            if (this->start !=  nullptr)
+            {
+                this->allocator.destroy(this->start);
+                this->allocator.deallocate(this->start, 1);
+                this->start = nullptr;
+            }
+            if (this->end !=  nullptr)
+            {
+                this->allocator.destroy(this->end);
+                this->allocator.deallocate(this->end, 1);
+                this->end = nullptr;
+            }
+        }
 
         void r_insert(node &newnode)
         {
@@ -308,6 +338,15 @@ namespace  ft
         this->end->parent = actualnode;
     }
 
+    void    swap(three& x)
+    {
+        ft::three <key_type, mapped_type>   tamp(false);
+        
+        tamp = *this;
+        *this = x;
+        x = tamp;
+    }
+
     void    hidefakenode(void)
     {
         this->start->parent->left   = nullptr;
@@ -316,16 +355,16 @@ namespace  ft
         this->end->parent           = nullptr;
     }
 
-        void clear_three(node *first)
-        {
-            if (first->left  != nullptr &&  this->start != nullptr && first->left != this->start)
-                clear_three(first->left);
-            if (first->right != nullptr && this->start != nullptr && first->right != this->end)
-                clear_three(first->right);
-            this->allocator.destroy(first);
-            this->allocator.deallocate(first, 1);
-            first = nullptr;
-        }
+    void clear_three(node *first)
+    {
+        if (first->left  != nullptr &&  this->start != nullptr && first->left != this->start)
+            clear_three(first->left);
+        if (first->right != nullptr && this->start != nullptr && first->right != this->end)
+            clear_three(first->right);
+        this->allocator.destroy(first);
+        this->allocator.deallocate(first, 1);
+        first = nullptr;
+    }
 
     node    *getstart(void) const           {return(this->start->parent);}
     node    *getend(void)const              {return(this->end);}
@@ -334,6 +373,9 @@ namespace  ft
     node    *getmother(void) const          {return(this->mother);}
     node    *getnewnode(void) const         {return(this->nwnode);}
     size_type   getsize(void)   const       {return(this->size);}
+
+    void    setstartnull(void)              {this->start = nullptr;}
+    void    setendnull(void)                {this->end = nullptr;}
     void    setsize(size_type x)            {this->size = x;}
     void    setmom(void)
     {
@@ -342,9 +384,9 @@ namespace  ft
         this->mother = nullptr;
     }
     private:
-        node            *mother;
         node            *start;
         node            *end;
+        node            *mother;
         node            *nwnode;
         allocator_type  allocator;
         key_compare     comparator;

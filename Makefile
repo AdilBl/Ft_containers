@@ -11,7 +11,7 @@ NAME            =    Ft_containers
 CC                =    c++
 RM                =    rm -f
 
-FLAGS            =    -Wall -Wextra -Werror -std=c++98
+FLAGS            =    -std=c++98 #-fsanitize=address -g
 
 .cpp.o:$(HEADER)$(MAKEFILE)
 		$(CC) $(FLAGS) -c $< -o $(<:.cpp=.o)

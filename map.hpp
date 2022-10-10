@@ -84,7 +84,11 @@ class map
 			}
 			return(*this);
 		}
-		virtual ~map()									{}
+		virtual ~map()
+		{
+			clear();
+			this->three.~three();	
+		}
 		//Capacity
 		bool empty() const			{return(this->three.getsize() == 0);}
 		size_type size() const		{return(this->three.getsize());}
@@ -199,8 +203,15 @@ class map
 		}
 		void swap (map& x)
 		{
+			ft::three <key_type, mapped_type>   tamp(false);
+        
+			tamp = this->three;
+			this->three = x.three;
+			x.three = tamp;
+
+			tamp.setstartnull();
+			tamp.setendnull();
 			std::swap(this->comp, x.comp);
-			std::swap(this->three, x.three);
 			std::swap(this->_allocator, x._allocator);
 		}
 		void clear()
@@ -293,9 +304,9 @@ class map
 
 		
 	private:
-		allocator_type							_allocator;
+		allocator_type											_allocator;
 		three<key_type, mapped_type, Compare, Alloc>			three;
-		key_compare     						comp;
+		key_compare     										comp;
 };
 
 	template <class _Key, class _Tp, class _Compare, class _Allocator>
@@ -338,7 +349,7 @@ class map
 	template <class _Key, class _Tp, class _Compare, class _Allocator>
     void swap(const ft::map<_Key, _Tp, _Compare, _Allocator>& x, const ft::map<_Key, _Tp, _Compare, _Allocator>& y)
 	{
-		std::swap(x, y);
+		x.swap(y);
 	}
 
 }

@@ -76,7 +76,10 @@ namespace ft
 
             virtual ~vector()
             {
-                this->allocator.deallocate(this->_tab, this->_capacity);
+                if (this->_size > 0)
+                    clear();
+                if (this->_capacity > 0)
+                    this->allocator.deallocate(this->_tab, this->_capacity);
             }
 
             vector& operator= (const vector& x)
@@ -87,10 +90,13 @@ namespace ft
                 this->_capacity = x._capacity;
                 this->_size = x._size;
                 this->allocator = x.allocator;
-                this->_tab = this->allocator.allocate(this->_capacity);
-                for (size_type i = 0; i < this->_capacity; i++)
+                if (x._capacity > 0)
                 {
-                    this->allocator.construct(this->_tab + i, x._tab[i]);
+                    this->_tab = this->allocator.allocate(this->_capacity);
+                    for (size_type i = 0; i < this->_size; i++)
+                    {
+                        this->allocator.construct(this->_tab + i, x._tab[i]);
+                    }
                 }
                 return (*this);
             }
@@ -107,18 +113,36 @@ namespace ft
             }
             void reserve (size_type n)
             {
+                // if (n > this->max_size())
+                //     throw std::length_error("Capacity overflow");
+                // if (n <= this->_capacity)
+                //     return ;
+                // T * t_Data = this->allocator.allocate(n);
+
+                // for (size_type i = 0; i < this->_size; i++)
+                //     this->allocator.construct(t_Data + i, this->_tab[i]);
+                // if (this->_capacity > 0)
+                // {
+                //     this->allocator.deallocate(this->_tab, this->_capacity);
+                // }
+                // this->_tab = t_Data;
+                // this->_capacity = n;
                 if (n > this->max_size())
                     throw std::length_error("Capacity overflow");
                 if (n <= this->_capacity)
                     return ;
-                T * t_Data = this->allocator.allocate(n);
-
+                T * t_Data = this->allocator.allocate(n);                
+                if (n < this->_size)
+                    this->_size = n;
                 for (size_type i = 0; i < this->_size; i++)
                     this->allocator.construct(t_Data + i, this->_tab[i]);
                 if (this->_capacity > 0)
+                {
                     this->allocator.deallocate(this->_tab, this->_capacity);
+                }
                 this->_tab = t_Data;
                 this->_capacity = n;
+    
             }
 
             void resize (size_type n, value_type val = value_type())
@@ -193,74 +217,44 @@ namespace ft
 
             void clear()
             {
-                for (size_type i = 0; i < this->_capacity ; i++)
+                for (size_type i = 0; i < this->_size ; i++)
                     this->allocator.destroy(this->_tab + i);
                 this->_size = 0;
             }
 
             iterator insert (iterator position, const value_type& val)
             {
-                ft::vector<value_type> t_Data(*this);
+                size_t i = ft::distance(position, this->end());
 
-                iterator it = begin();
-                size_type   i = 0;
-                size_type   end = this->_size;
-                while (it != position)
-                {
-                    it++;
-                    i++;
-                }
-                clear();
-                for (size_type n = 0; n < i; n++)
-                    push_back(t_Data[n]);
-                push_back(val);
-                for (size_type n = i; n < end; n++)
-                    push_back(t_Data[n]);
-                it = begin();
-                return(it + i);
+                insert(position, 1, val);
+                return(iterator(&(this->_tab[i])));
             }
 
             void insert (iterator position, size_type k, const value_type& val)
             {
-                ft::vector<value_type> t_Data(*this);
+                ft::vector<value_type> t_Data(position, this->end());
 
-                iterator it = begin();
-                size_type   i = 0;
-                size_type   end = this->_size;
-                while (it != position)
-                {
-                    it++;
-                    i++;
-                }
-                clear();
-                for (size_type n = 0; n < i; n++)
-                    push_back(t_Data[n]);
-                for (size_type n = 0; n < k; n++)
+                this->_size -= ft::distance(position, this->end());
+
+                for (size_type i = 0; i < k; i++)
                     push_back(val);
-                for (size_type n = i; n < end; n++)
-                    push_back(t_Data[n]);
+                for (iterator i = t_Data.begin(); i != t_Data.end(); i++)
+                    push_back(*i);
             }
 
             template <class InputIterator>    
             void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!std::is_same<InputIterator, int>::value>::type* = 0)
             {
-                ft::vector<value_type> t_Data(*this);
+                ft::vector<value_type> t_Data(position, this->end());
 
-                iterator it = begin();
-                size_type   i = 0;
-                size_type   end = this->_size;
-                while (it != position)
-                {
-                    it++;
-                    i++;
-                }
-                clear();
-                for (size_type n = 0; n < i; n++)
-                    push_back(t_Data[n]);
+                this->_size -= ft::distance(position, this->end());
+
                 while (first != last)
+                {
                     push_back(*first++);
-                for (size_type n = i; n < end; n++)
-                    push_back(t_Data[n]);
+                }
+                for (iterator i = t_Data.begin(); i != t_Data.end(); i++)
+                    push_back(*i);
             }
             
             iterator erase (iterator position)
