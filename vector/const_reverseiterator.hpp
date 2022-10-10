@@ -21,7 +21,7 @@ namespace ft
             typedef const value_type*   const_pointer;
             typedef std::size_t         size_type;
             typedef ptrdiff_t           difference_type;
-            const_vector_reverseiterator(void)           {this->index = nullptr;}
+            const_vector_reverseiterator(void)           {this->index = NULL;}
             const_vector_reverseiterator(pointer i)      {this->index = i;}
             const_vector_reverseiterator (const vector_iterator<value_type>& x)         {this->index = x.index;}
             const_vector_reverseiterator (const vector_reverseiterator<value_type>& x)  {this->index = x.base();}

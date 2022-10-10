@@ -30,7 +30,7 @@ class reverse_map_iterator
 		typedef	ptrdiff_t							difference_type;
 		typedef size_t								size_type;
         typedef node<key_type, mapped_type>         node;
-        reverse_map_iterator(void)                          {this->index = nullptr;}
+        reverse_map_iterator(void)                          {this->index = NULL;}
         reverse_map_iterator(node *i)                       {this->index = i;}
         reverse_map_iterator (const reverse_map_iterator& x)        {*this = x;}
         virtual ~reverse_map_iterator()                     {}
@@ -54,9 +54,9 @@ class reverse_map_iterator
         //
         reverse_map_iterator     operator--(void)
         {
-            if (this->index->right == nullptr)
+            if (this->index->right == NULL)
             {
-                while (this->index->parent != nullptr && this->index == this->index->parent->right)
+                while (this->index->parent != NULL && this->index == this->index->parent->right)
                 {
                     this->index = this->index->parent;
                 }
@@ -65,7 +65,7 @@ class reverse_map_iterator
             else
             {
                 this->index = this->index->right;
-                while (this->index->left != nullptr)
+                while (this->index->left != NULL)
                 {
                     this->index = this->index->left;
                 }
@@ -75,9 +75,9 @@ class reverse_map_iterator
         reverse_map_iterator     operator--(int)
         {
             reverse_map_iterator tamp(*this);
-            if (this->index->right == nullptr)
+            if (this->index->right == NULL)
             {
-                while (this->index->parent != nullptr && this->index == this->index->parent->right)
+                while (this->index->parent != NULL && this->index == this->index->parent->right)
                 {
                     this->index = this->index->parent;
                 }
@@ -86,7 +86,7 @@ class reverse_map_iterator
             else
             {
                 this->index = this->index->right;
-                while (this->index->left != nullptr)
+                while (this->index->left != NULL)
                 {
                     this->index = this->index->left;
                 }
@@ -95,9 +95,9 @@ class reverse_map_iterator
         }
         reverse_map_iterator     operator++(void)
         {
-            if (this->index->left == nullptr)
+            if (this->index->left == NULL)
             {
-                while (this->index->parent != nullptr && this->index->parent->left == this->index)
+                while (this->index->parent != NULL && this->index->parent->left == this->index)
                 {
                     this->index = this->index->parent;
                 }
@@ -106,7 +106,7 @@ class reverse_map_iterator
             else
             {
                 this->index = this->index->left;
-                while (this->index->right != nullptr)
+                while (this->index->right != NULL)
                 {
                     this->index = this->index->right;
                 }
@@ -116,9 +116,9 @@ class reverse_map_iterator
         reverse_map_iterator     operator++(int)
         {
             reverse_map_iterator tamp(*this);
-            if (this->index->left == nullptr)
+            if (this->index->left == NULL)
             {
-                while (this->index->parent != nullptr && this->index->parent->left == this->index)
+                while (this->index->parent != NULL && this->index->parent->left == this->index)
                 {
                     this->index = this->index->parent;
                 }
@@ -127,7 +127,7 @@ class reverse_map_iterator
             else
             {
                 this->index = this->index->left;
-                while (this->index->right != nullptr)
+                while (this->index->right != NULL)
                 {
                     this->index = this->index->right;
                 }

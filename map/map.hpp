@@ -29,6 +29,7 @@ class map
 		typedef ft::pair<Key, T>												value_type;
 		typedef	Compare															key_compare;
 		typedef	Alloc															allocator_type;
+	//	typedef	typename Alloc::template rebind< ft::three<Key, T> >::other		allocator_type;
 		typedef value_type&														reference;
 		typedef	const value_type&												const_reference;
 		typedef value_type*														pointer;
@@ -110,14 +111,14 @@ class map
 		{
 			ft::node<key_type, mapped_type> * finded = this->three.find(k);
 
-			if (finded != nullptr)
+			if (finded != NULL)
 				return(finded->content.second);
 			throw(std::out_of_range("Not found"));
 		}
 		const mapped_type& at (const key_type& k) const
 		{
 			ft::node<key_type, mapped_type> * finded = this->three.find(k);
-			if (finded != nullptr)
+			if (finded != NULL)
 				return(finded->content.second);
 			throw(std::out_of_range("Not found"));
 		}
@@ -127,13 +128,13 @@ class map
 		iterator begin()								
 		{
 			// this->three.addfakenode();
-			if (this->getmom() == nullptr)
+			if (this->getmom() == NULL)
 				return(iterator(this->three.getend()));
 			return(iterator(this->three.getstart()));
 		}
 		const_iterator begin() const					
 		{
-			if (this->getmom() == nullptr)
+			if (this->getmom() == NULL)
 				return(const_iterator(this->three.getend()));
 			return(const_iterator(this->three.getstart()));
 		}
@@ -145,13 +146,13 @@ class map
 		const_reverse_iterator rbegin() const			{return(const_reverse_iterator(this->three.getrbegin()));}
 		reverse_iterator rend()							
 		{
-			if (this->getmom() == nullptr)
+			if (this->getmom() == NULL)
 				return(reverse_iterator(this->three.getend()->parent));	
 			return(reverse_iterator(this->three.getrend()));
 		}
 		const_reverse_iterator rend() const
 		{
-			if (this->getmom() == nullptr)
+			if (this->getmom() == NULL)
 				return(const_reverse_iterator(this->three.getend()->parent));	
 			return(const_reverse_iterator(this->three.getrend()));
 		}
@@ -163,7 +164,7 @@ class map
 		{
 			if (count(val.first) == 1)
 				return pair<iterator,bool>(find(val.first), false);
-			ft::node<key_type, mapped_type> nw(nullptr, nullptr, nullptr, ft::make_pair(val.first, val.second));
+			ft::node<key_type, mapped_type> nw(NULL, NULL, NULL, ft::make_pair(val.first, val.second));
 			this->three.r_insert(nw);
 			return	pair<iterator,bool>(this->three.getnewnode(), true);
 		}

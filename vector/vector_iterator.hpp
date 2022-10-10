@@ -19,7 +19,7 @@ namespace ft
             typedef const value_type*   const_pointer;
             typedef std::size_t         size_type;
             typedef ptrdiff_t           difference_type;
-            vector_iterator(void)           {this->index = nullptr;}
+            vector_iterator(void)           {this->index = NULL;}
             vector_iterator(pointer i)      {this->index = i;}
             vector_iterator (const vector_iterator& x)        {*this = x;}
             virtual ~vector_iterator()          {}

@@ -309,7 +309,7 @@
 // {
 // 	ft::map<int, int> mapped;
 
-// 	ft::node<int, int>	nnode(nullptr, nullptr, nullptr, ft::make_pair(15,2));
+// 	ft::node<int, int>	nnode(NULL, NULL, NULL, ft::make_pair(15,2));
 
 // 	for(int i = 0; i < 10; i++)
 // 	{

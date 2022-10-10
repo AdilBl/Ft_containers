@@ -34,17 +34,17 @@ namespace ft
 
 			node()
 			{
-				parent = nullptr;
-				left = nullptr;
-				right = nullptr;
+				parent = NULL;
+				left = NULL;
+				right = NULL;
 				deep = 1;
 			}
 
 			node(pair	val)
 			{
-				parent = nullptr;
-				left = nullptr;
-				right = nullptr;
+				parent = NULL;
+				left = NULL;
+				right = NULL;
 				content = val;
 				deep = 1;
 			}
@@ -71,7 +71,7 @@ namespace ft
 
 			int height(node *n)
 			{
-				if (n == nullptr)
+				if (n == NULL)
 					return 0;
 				return (n->deep);
 			}

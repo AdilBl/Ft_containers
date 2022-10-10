@@ -22,7 +22,7 @@ namespace ft
             if (p->parent)
                 std::cout << " | p : " << p->parent->getkey() << std::endl;
             else
-                std::cout << " | p : (nullptr)" << std::endl;
+                std::cout << " | p : (NULL)" << std::endl;
             if(p->left)
             {
                 std::cout << std::setw(indent) << ' ' <<" \\ \n";
