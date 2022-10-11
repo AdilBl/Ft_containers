@@ -23,6 +23,7 @@ namespace  ft
 		typedef std::pair<const Key, T>				value_type;
 		typedef	Compare								key_compare;
 		typedef	Alloc								allocator_type;
+        // typedef	typename Alloc::template rebind< ft::three<Key, T> >::other		allocator_type;
 		typedef value_type&							reference;
 		typedef	const value_type&					const_reference;
 		typedef value_type*							pointer;

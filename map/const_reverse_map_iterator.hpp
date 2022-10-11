@@ -13,7 +13,7 @@
 namespace ft
 {
 
-template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<ft::pair<Key, T> > >
+template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<ft::node<Key, T> > >
 
 class const_reverse_map_iterator
 {
@@ -23,6 +23,7 @@ class const_reverse_map_iterator
 		typedef ft::pair<Key, T>				value_type;
 		typedef	Compare								key_compare;
 		typedef	Alloc								allocator_type;
+        // typedef	typename Alloc::template rebind< ft::three<Key, T> >::other		allocator_type;
 		typedef value_type&							reference;
 		typedef	const value_type&					const_reference;
 		typedef value_type*							pointer;

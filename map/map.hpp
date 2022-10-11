@@ -28,8 +28,8 @@ class map
 		typedef T																mapped_type;
 		typedef ft::pair<Key, T>												value_type;
 		typedef	Compare															key_compare;
-		typedef	Alloc															allocator_type;
-	//	typedef	typename Alloc::template rebind< ft::three<Key, T> >::other		allocator_type;
+		// typedef	Alloc															allocator_type;
+		typedef	typename Alloc::template rebind< ft::three<Key, T, Compare, Alloc> >::other		allocator_type;
 		typedef value_type&														reference;
 		typedef	const value_type&												const_reference;
 		typedef value_type*														pointer;
@@ -305,8 +305,8 @@ class map
 
 		
 	private:
-		allocator_type											_allocator;
-		three<key_type, mapped_type, Compare, Alloc>			three;
+		allocator_type												_allocator;
+		three<key_type, mapped_type, Compare>			three;
 		key_compare     										comp;
 };
 

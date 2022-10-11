@@ -13,7 +13,7 @@
 namespace ft
 {
 
-template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<ft::pair<Key, T> > >
+template<class Key, class T, class Compare = ft::less<Key>, class Alloc = std::allocator<ft::node<Key, T> > >
 
 class reverse_map_iterator
 {
